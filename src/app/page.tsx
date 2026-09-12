@@ -76,36 +76,42 @@ export default async function HomePage() {
           </div>
 
           <div
-            className="animate-fade-up relative min-h-[380px] overflow-hidden rounded-2xl md:min-h-[560px]"
+            className="hero-portrait-card animate-fade-up"
             style={{ animationDelay: "120ms" }}
           >
-            {showHeroPhoto ? (
-              <SanityImage
-                value={page.heroImage as never}
-                alt={page.heroImageAlt || page.heroCaptionName}
-                className="object-cover object-[center_20%]"
-                fill
-                priority
-                sizes="(min-width: 768px) 42vw, 100vw"
-              />
-            ) : (
-              <div className="absolute inset-0 bg-gradient-to-br from-sage/35 via-mist-deep/60 to-blush/30" />
-            )}
-            <div className="hero-fade absolute inset-0" />
-            <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-              <p className="font-serif text-2xl text-ink md:text-3xl">
-                {page.heroCaptionName}
-              </p>
-              <p className="mt-2 text-sm text-ink-muted">
-                {page.heroCaptionDetail}
-                <br />
-                In-person &amp; online
-              </p>
-              {!showHeroPhoto ? (
-                <p className="mt-4 text-xs tracking-wide text-ink-muted uppercase">
-                  Add a hero photo in Admin → Home page
+            <div className="hero-portrait-card__shimmer" aria-hidden />
+            <div className="hero-portrait-card__sparkles" aria-hidden />
+            <div className="hero-portrait-card__inner">
+              <div className="relative aspect-[4/5] w-full overflow-hidden md:aspect-[5/6]">
+                {showHeroPhoto ? (
+                  <SanityImage
+                    value={page.heroImage as never}
+                    alt={page.heroImageAlt || page.heroCaptionName}
+                    className="object-cover object-[center_18%]"
+                    fill
+                    priority
+                    sizes="(min-width: 768px) 42vw, 100vw"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-sage/35 via-mist-deep/60 to-blush/30" />
+                )}
+                <div className="hero-fade-soft absolute inset-x-0 bottom-0 h-16 md:h-20" />
+              </div>
+              <div className="border-t border-line/60 bg-paper px-6 py-5 md:px-8 md:py-6">
+                <p className="font-serif text-2xl text-ink md:text-3xl">
+                  {page.heroCaptionName}
                 </p>
-              ) : null}
+                <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+                  {page.heroCaptionDetail}
+                  <br />
+                  In-person &amp; online
+                </p>
+                {!showHeroPhoto ? (
+                  <p className="mt-4 text-xs tracking-wide text-ink-muted uppercase">
+                    Add a hero photo in Admin → Home page
+                  </p>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>

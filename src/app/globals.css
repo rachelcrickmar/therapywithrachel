@@ -133,15 +133,86 @@ body {
   pointer-events: none;
 }
 
-.hero-fade {
+.hero-fade-soft {
   background: linear-gradient(
     to top,
-    color-mix(in oklab, var(--paper) 96%, transparent) 0%,
-    color-mix(in oklab, var(--paper) 88%, transparent) 22%,
-    color-mix(in oklab, var(--paper) 55%, transparent) 48%,
-    color-mix(in oklab, var(--paper) 12%, transparent) 72%,
+    color-mix(in oklab, var(--paper) 55%, transparent) 0%,
+    color-mix(in oklab, var(--paper) 18%, transparent) 55%,
     transparent 100%
   );
+  pointer-events: none;
+}
+
+.hero-portrait-card {
+  position: relative;
+  border-radius: 1.15rem;
+  padding: 1.5px;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hero-portrait-card__shimmer {
+  position: absolute;
+  inset: -55%;
+  background: conic-gradient(
+    from 0deg,
+    color-mix(in oklab, var(--sage-soft) 10%, transparent),
+    color-mix(in oklab, var(--blush) 60%, white),
+    color-mix(in oklab, var(--sage) 50%, white),
+    color-mix(in oklab, var(--blush-soft) 75%, white),
+    color-mix(in oklab, var(--mist-deep) 55%, white),
+    color-mix(in oklab, var(--blush) 55%, white),
+    color-mix(in oklab, var(--sage-soft) 10%, transparent)
+  );
+  animation: hero-shimmer-spin 8s linear infinite;
+  z-index: 0;
+}
+
+.hero-portrait-card__sparkles {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  background:
+    radial-gradient(circle at 10% 14%, color-mix(in oklab, white 95%, var(--blush)) 0 1.2px, transparent 2.2px),
+    radial-gradient(circle at 90% 18%, color-mix(in oklab, white 90%, var(--sage)) 0 1px, transparent 2px),
+    radial-gradient(circle at 96% 62%, color-mix(in oklab, white 95%, var(--blush)) 0 1.35px, transparent 2.4px),
+    radial-gradient(circle at 6% 70%, color-mix(in oklab, white 85%, var(--sage-soft)) 0 1px, transparent 2px),
+    radial-gradient(circle at 42% 3%, color-mix(in oklab, white 95%, var(--blush-soft)) 0 1.1px, transparent 2px),
+    radial-gradient(circle at 58% 97%, color-mix(in oklab, white 90%, var(--sage)) 0 1.2px, transparent 2.2px),
+    radial-gradient(circle at 78% 88%, color-mix(in oklab, white 92%, var(--blush)) 0 0.9px, transparent 1.8px);
+  animation: hero-sparkle 3.2s ease-in-out infinite;
+  opacity: 0.65;
+  mix-blend-mode: plus-lighter;
+}
+
+.hero-portrait-card__inner {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: calc(1.15rem - 1.5px);
+  background: var(--paper);
+  box-shadow: 0 18px 40px color-mix(in oklab, var(--ink) 8%, transparent);
+}
+
+@keyframes hero-shimmer-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hero-sparkle {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  40% {
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0.5;
+  }
 }
 
 @keyframes fade-up {
@@ -166,7 +237,9 @@ body {
 
   .animate-fade-up,
   .btn-cta-attention,
-  .btn-cta-attention::before {
+  .btn-cta-attention::before,
+  .hero-portrait-card__shimmer,
+  .hero-portrait-card__sparkles {
     animation: none !important;
   }
 }
