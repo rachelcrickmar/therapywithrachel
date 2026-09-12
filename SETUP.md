@@ -34,9 +34,16 @@ npm run dev
 ```
 
 - Site: http://localhost:3000
-- Studio: http://localhost:3000/studio
+- Admin editor: http://localhost:3000/admin (Sanity login required)
 
-In Studio, add Services and Blog posts (optional — the site ships with fallback copy until CMS content exists). Inquiries appear under **Inquiries**.
+Sign in at `/admin` with Rachel’s Sanity account. The left menu is simplified:
+
+- **New messages** — contact form inquiries that need a reply
+- **Write a blog post** — create/edit articles
+- **Services** — therapy areas on the site
+- **Site settings** — phone, email, Thrizer link
+
+The site ships with fallback copy until CMS content exists.
 
 ## 4. Vercel (Rachel)
 

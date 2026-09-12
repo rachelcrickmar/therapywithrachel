@@ -6,7 +6,9 @@ import { siteConfig } from "@/lib/site";
 
 export function Footer() {
   const pathname = usePathname();
-  if (pathname?.startsWith("/studio")) return null;
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/studio")) {
+    return null;
+  }
 
   return (
     <footer className="mt-auto border-t border-line bg-stone-warm/50">

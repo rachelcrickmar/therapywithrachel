@@ -23,7 +23,7 @@ The site runs with built-in fallback content even before Sanity is connected. Co
 - `/blog` — Articles from Sanity (sample post until CMS is filled)
 - `/contact` — Get in touch
 - `/privacy` — Form privacy notes
-- `/studio` — Sanity Studio (inquiries inbox, content)
+- `/admin` — Easy Sanity editor (login with Rachel’s Sanity account)
 
 ## Design
 

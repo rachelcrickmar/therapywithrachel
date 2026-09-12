@@ -15,7 +15,9 @@ export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  if (pathname?.startsWith("/studio")) return null;
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/studio")) {
+    return null;
+  }
 
   return (
     <header className="relative z-40 border-b border-line/70 bg-paper/80 backdrop-blur-md">
