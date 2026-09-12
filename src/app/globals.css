@@ -69,97 +69,100 @@ body {
 }
 
 .hero-atmosphere {
-  --parallax-x: 0px;
-  --parallax-y: 0px;
-  --drift-x: 0px;
-  --drift-y: 0px;
-  --glow-shift: 50%;
   background:
     radial-gradient(
-      1200px 640px at calc(12% + var(--drift-x) + var(--parallax-x) * 0.4)
-        calc(-6% + var(--drift-y) + var(--parallax-y) * 0.35),
-      color-mix(in oklab, var(--mist-deep) 85%, white),
-      transparent 60%
+      70% 55% at 18% 12%,
+      color-mix(in oklab, var(--mist-deep) 90%, white),
+      transparent 62%
     ),
     radial-gradient(
-      980px 520px at calc(88% + var(--drift-x) * -0.7 + var(--parallax-x) * 0.55)
-        calc(12% + var(--drift-y) * 0.6 + var(--parallax-y) * 0.45),
-      color-mix(in oklab, var(--blush-soft) 78%, white),
+      65% 50% at 86% 18%,
+      color-mix(in oklab, var(--blush-soft) 88%, white),
+      transparent 58%
+    ),
+    radial-gradient(
+      55% 45% at 58% 78%,
+      color-mix(in oklab, var(--sage-soft) 48%, white),
       transparent 55%
     ),
-    radial-gradient(
-      760px 440px at calc(62% + var(--drift-x) * 0.45)
-        calc(var(--glow-shift) + var(--parallax-y) * 0.25),
-      color-mix(in oklab, var(--sage-soft) 42%, white),
-      transparent 52%
-    ),
     linear-gradient(180deg, var(--mist) 0%, var(--paper) 48%, var(--stone) 100%);
+  background-size: 140% 140%, 150% 150%, 160% 160%, 100% 100%;
+  background-position: 0% 20%, 100% 0%, 50% 100%, 0 0;
+  animation: hero-wash 18s ease-in-out infinite;
 }
 
-.hero-parallax-layer {
-  transform: translate3d(
-    calc(var(--drift-x) * 0.55 + var(--parallax-x)),
-    calc(var(--drift-y) * 0.55 + var(--parallax-y)),
-    0
-  );
+.hero-orb-layer {
   will-change: transform;
 }
 
 .hero-orb {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(40px);
+  filter: blur(36px);
   will-change: transform, opacity;
-  opacity: 0.9;
+  mix-blend-mode: multiply;
 }
 
 .hero-orb-a {
-  top: -8%;
-  right: -6%;
-  height: min(58vw, 520px);
-  width: min(58vw, 520px);
-  background: color-mix(in oklab, var(--blush) 55%, transparent);
-  animation: hero-orb-drift-a 14s ease-in-out infinite;
+  top: 0%;
+  right: 5%;
+  height: min(70vw, 580px);
+  width: min(70vw, 580px);
+  background: color-mix(in oklab, var(--blush) 65%, transparent);
+  animation: hero-orb-drift-a 12s ease-in-out infinite;
 }
 
 .hero-orb-b {
-  bottom: 0%;
-  left: -8%;
-  height: min(48vw, 420px);
-  width: min(48vw, 420px);
-  background: color-mix(in oklab, var(--sage) 38%, transparent);
-  animation: hero-orb-drift-b 17s ease-in-out infinite;
-  animation-delay: -4s;
+  bottom: 5%;
+  left: 0%;
+  height: min(62vw, 500px);
+  width: min(62vw, 500px);
+  background: color-mix(in oklab, var(--sage) 45%, transparent);
+  animation: hero-orb-drift-b 15s ease-in-out infinite;
+  animation-delay: -3s;
 }
 
 .hero-orb-c {
-  top: 34%;
-  left: 38%;
-  height: min(32vw, 280px);
-  width: min(32vw, 280px);
-  background: color-mix(in oklab, var(--blush-deep) 28%, transparent);
-  animation: hero-orb-drift-c 19s ease-in-out infinite;
-  animation-delay: -9s;
+  top: 28%;
+  left: 32%;
+  height: min(42vw, 340px);
+  width: min(42vw, 340px);
+  background: color-mix(in oklab, var(--blush-deep) 40%, transparent);
+  animation: hero-orb-drift-c 16s ease-in-out infinite;
+  animation-delay: -7s;
 }
 
 .hero-orb-d {
-  top: 8%;
-  left: 18%;
-  height: min(26vw, 220px);
-  width: min(26vw, 220px);
-  background: color-mix(in oklab, var(--mist-deep) 70%, transparent);
-  animation: hero-orb-drift-a 21s ease-in-out infinite reverse;
-  animation-delay: -2s;
+  top: 12%;
+  left: 12%;
+  height: min(36vw, 280px);
+  width: min(36vw, 280px);
+  background: color-mix(in oklab, var(--mist-deep) 85%, transparent);
+  animation: hero-orb-drift-a 19s ease-in-out infinite reverse;
+  animation-delay: -1s;
+}
+
+@keyframes hero-wash {
+  0%,
+  100% {
+    background-position: 0% 20%, 100% 0%, 50% 100%, 0 0;
+  }
+  33% {
+    background-position: 35% 5%, 70% 30%, 20% 70%, 0 0;
+  }
+  66% {
+    background-position: 15% 40%, 85% 15%, 65% 45%, 0 0;
+  }
 }
 
 @keyframes hero-orb-drift-a {
   0%,
   100% {
     transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.75;
+    opacity: 0.7;
   }
   50% {
-    transform: translate3d(42px, -36px, 0) scale(1.12);
+    transform: translate3d(-12%, 10%, 0) scale(1.18);
     opacity: 1;
   }
 }
@@ -168,10 +171,10 @@ body {
   0%,
   100% {
     transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.7;
+    opacity: 0.65;
   }
   50% {
-    transform: translate3d(-38px, 28px, 0) scale(1.1);
+    transform: translate3d(14%, -9%, 0) scale(1.15);
     opacity: 0.95;
   }
 }
@@ -183,7 +186,7 @@ body {
     opacity: 0.55;
   }
   50% {
-    transform: translate3d(28px, -22px, 0) scale(1.16);
+    transform: translate3d(10%, 12%, 0) scale(1.22);
     opacity: 0.9;
   }
 }
@@ -191,63 +194,27 @@ body {
 @keyframes cta-glow-pulse {
   0%,
   100% {
-    box-shadow:
-      0 0 0 0 color-mix(in oklab, var(--sage-soft) 0%, transparent),
-      0 0 18px color-mix(in oklab, var(--sage) 32%, transparent);
+    background-color: var(--sage-deep);
+    box-shadow: 0 0 16px color-mix(in oklab, var(--sage) 30%, transparent);
   }
   50% {
+    background-color: color-mix(in oklab, var(--sage-deep) 72%, white);
     box-shadow:
-      0 0 0 10px color-mix(in oklab, var(--sage-soft) 0%, transparent),
-      0 0 30px color-mix(in oklab, var(--sage) 55%, transparent),
-      0 0 48px color-mix(in oklab, var(--blush) 28%, transparent);
+      0 0 26px color-mix(in oklab, var(--sage) 50%, transparent),
+      0 0 40px color-mix(in oklab, var(--blush) 22%, transparent);
   }
 }
 
 .btn-cta-attention {
-  position: relative;
   animation: cta-glow-pulse 2.6s ease-in-out infinite;
-  transition:
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.35s ease,
-    background-color 0.25s ease;
-}
-
-.btn-cta-attention::after {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: inherit;
-  background: linear-gradient(
-    120deg,
-    transparent 20%,
-    color-mix(in oklab, white 35%, transparent) 45%,
-    transparent 70%
-  );
-  opacity: 0;
-  transform: translateX(-40%);
-  transition:
-    opacity 0.35s ease,
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-  pointer-events: none;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-cta-attention:hover {
   animation: none;
-  transform: translateY(-3px) scale(1.03);
-  box-shadow:
-    0 10px 28px color-mix(in oklab, var(--sage-deep) 28%, transparent),
-    0 0 0 1px color-mix(in oklab, var(--sage-soft) 45%, transparent);
+  background-color: var(--ink);
+  box-shadow: none;
 }
-
-.btn-cta-attention:hover::after {
-  opacity: 1;
-  transform: translateX(40%);
-}
-
-.btn-cta-attention:active {
-  transform: translateY(-1px) scale(1.01);
-}
-
 
 .paper-grain {
   background-image:
@@ -304,6 +271,7 @@ body {
 
   .animate-fade-up,
   .animate-drift,
+  .hero-atmosphere,
   .hero-orb-a,
   .hero-orb-b,
   .hero-orb-c,
