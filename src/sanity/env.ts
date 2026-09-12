@@ -4,7 +4,9 @@ export const apiVersion =
 export const dataset =
   process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
 
-export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "";
+/** Public project id — safe to fallback so production still reads CMS content */
+export const projectId =
+  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "7bqhkhgx";
 
 export const hasSanityConfig = Boolean(projectId);
 

@@ -1,19 +1,25 @@
 import { createClient } from "next-sanity";
 import { apiVersion, dataset, hasSanityConfig, projectId } from "../env";
 
+/**
+ * Server client for public content.
+ * Prefer a read token when available (private datasets / drafts).
+ * Always time-revalidate so Admin publishes show up without a webhook.
+ */
 export const client = hasSanityConfig
   ? createClient({
       projectId,
       dataset,
       apiVersion,
       useCdn: true,
+      token: process.env.SANITY_API_READ_TOKEN || undefined,
     })
   : null;
 
 export async function sanityFetch<T>({
   query,
   params = {},
-  revalidate = 60,
+  revalidate = 30,
   tags = [],
 }: {
   query: string;
@@ -26,7 +32,8 @@ export async function sanityFetch<T>({
   try {
     return await client.fetch<T>(query, params, {
       next: {
-        revalidate: tags.length ? false : revalidate,
+        // Never cache forever — Admin edits must appear on the live site
+        revalidate: revalidate === false ? 30 : revalidate,
         tags,
       },
     });

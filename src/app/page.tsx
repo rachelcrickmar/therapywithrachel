@@ -1,12 +1,15 @@
 import { ButtonLink } from "@/components/ButtonLink";
 import { ContactForm } from "@/components/ContactForm";
 import { FadeIn } from "@/components/FadeIn";
-import { SanityImage } from "@/components/SanityImage";
+import { hasSanityImage, SanityImage } from "@/components/SanityImage";
 import { ServicesBlock } from "@/components/ServicesBlock";
 import { getHomePage, getServices } from "@/lib/get-content";
 
+export const revalidate = 30;
+
 export default async function HomePage() {
   const [services, page] = await Promise.all([getServices(), getHomePage()]);
+  const showHeroPhoto = hasSanityImage(page.heroImage as never);
 
   return (
     <>
@@ -42,11 +45,12 @@ export default async function HomePage() {
             className="animate-fade-up relative min-h-[320px] overflow-hidden rounded-sm md:min-h-[480px]"
             style={{ animationDelay: "120ms" }}
           >
-            {page.heroImage ? (
+            {showHeroPhoto ? (
               <SanityImage
                 value={page.heroImage as never}
                 alt={page.heroImageAlt || page.heroCaptionName}
-                className="absolute inset-0 h-full w-full object-cover"
+                className="object-cover"
+                fill
                 priority
                 sizes="(min-width: 768px) 40vw, 100vw"
               />
@@ -63,7 +67,7 @@ export default async function HomePage() {
                 <br />
                 In-person &amp; online
               </p>
-              {!page.heroImage ? (
+              {!showHeroPhoto ? (
                 <p className="mt-4 text-xs tracking-wide text-ink-muted uppercase">
                   Add a hero photo in Admin → Home page
                 </p>

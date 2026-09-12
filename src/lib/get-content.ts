@@ -47,6 +47,7 @@ export async function getHomePage() {
   const page = await sanityFetch<Record<string, unknown>>({
     query: homePageQuery,
     tags: ["homePage"],
+    revalidate: 30,
   });
 
   return {

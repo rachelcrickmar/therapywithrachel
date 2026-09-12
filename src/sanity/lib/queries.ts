@@ -53,19 +53,8 @@ export const postSlugsQuery = groq`
   *[_type == "post" && defined(slug.current)][].slug.current
 `;
 
-export const siteSettingsQuery = groq`
-  *[_type == "siteSettings"][0] {
-    practiceName,
-    email,
-    location,
-    thrizerWidgetUrl,
-    seoTitle,
-    seoDescription
-  }
-`;
-
 export const homePageQuery = groq`
-  *[_type == "homePage"][0] {
+  *[_id == "homePage"][0] {
     brandName,
     headline,
     subhead,
@@ -89,7 +78,7 @@ export const homePageQuery = groq`
 `;
 
 export const aboutPageQuery = groq`
-  *[_type == "aboutPage"][0] {
+  *[_id == "aboutPage"][0] {
     title,
     intro,
     portrait { ${imageFields} },
@@ -109,7 +98,7 @@ export const aboutPageQuery = groq`
 `;
 
 export const ratesPageQuery = groq`
-  *[_type == "ratesPage"][0] {
+  *[_id == "ratesPage"][0] {
     title,
     intro,
     feesHeading,
@@ -130,7 +119,7 @@ export const ratesPageQuery = groq`
 `;
 
 export const contactPageQuery = groq`
-  *[_type == "contactPage"][0] {
+  *[_id == "contactPage"][0] {
     eyebrow,
     title,
     intro,
@@ -142,7 +131,7 @@ export const contactPageQuery = groq`
 `;
 
 export const privacyPageQuery = groq`
-  *[_type == "privacyPage"][0] {
+  *[_id == "privacyPage"][0] {
     title,
     body[] {
       ...,
@@ -151,5 +140,16 @@ export const privacyPageQuery = groq`
         image { ${imageFields} }
       }
     }
+  }
+`;
+
+export const siteSettingsQuery = groq`
+  *[_id == "siteSettings"][0] {
+    practiceName,
+    email,
+    location,
+    thrizerWidgetUrl,
+    seoTitle,
+    seoDescription
   }
 `;

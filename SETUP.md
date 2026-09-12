@@ -54,9 +54,15 @@ The site ships with fallback copy until CMS content exists.
 ## 4. Vercel (Rachel)
 
 1. Import the GitHub repo into Rachel's Vercel team/account.
-2. Add the same env vars from `.env.example`.
-3. Set `NEXT_PUBLIC_SITE_URL` to the production URL once the domain is ready.
-4. Deploy. Connect Rachel's domain when she has it.
+2. Add env vars (required for contact form; project id is also hardcoded as a fallback for public reads):
+   - `NEXT_PUBLIC_SANITY_PROJECT_ID` = `7bqhkhgx`
+   - `NEXT_PUBLIC_SANITY_DATASET` = `production`
+   - `SANITY_API_READ_TOKEN`
+   - `SANITY_API_WRITE_TOKEN` (required for contact form → inbox)
+   - `NEXT_PUBLIC_SITE_URL` = production URL
+3. Deploy. Connect Rachel's domain when she has it.
+
+Published Admin edits refresh on the live site within about 30 seconds.
 
 ## 5. Optional email (Resend)
 
