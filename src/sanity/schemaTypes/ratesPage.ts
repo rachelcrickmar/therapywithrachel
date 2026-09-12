@@ -25,6 +25,21 @@ export const ratesPage = defineType({
       rows: 3,
       group: "intro",
     }),
+    defineField({
+      name: "sidePhoto",
+      title: "Photo in the intro section",
+      type: "image",
+      group: "intro",
+      options: { hotspot: true },
+      description:
+        "Optional photo of you. If empty, the site uses your Home page hero photo.",
+    }),
+    defineField({
+      name: "sidePhotoAlt",
+      title: "Photo description",
+      type: "string",
+      group: "intro",
+    }),
 
     defineField({
       name: "feesHeading",

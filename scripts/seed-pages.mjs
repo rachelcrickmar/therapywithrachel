@@ -169,6 +169,63 @@ const docs = [
       "Request a free 15-minute consultation. Please do not include clinical details or sensitive health information — this form is only for scheduling.",
   },
   {
+    _id: "faqPage",
+    _type: "faqPage",
+    title: "Frequently asked questions",
+    intro:
+      "A few common questions about getting started, sessions, and insurance. If yours isn’t here, reach out — I’m happy to help.",
+    faqs: [
+      {
+        _type: "faqItem",
+        _key: "f1",
+        question: "How do I get started?",
+        answer:
+          "Use the contact form to request a free 15-minute consultation. We’ll talk briefly about what you’re looking for and whether working together feels like a good fit.",
+        showOnHome: true,
+      },
+      {
+        _type: "faqItem",
+        _key: "f2",
+        question: "Do you offer virtual sessions?",
+        answer:
+          "Yes. I see clients in person in Wake Forest, NC and online across North Carolina.",
+        showOnHome: true,
+      },
+      {
+        _type: "faqItem",
+        _key: "f3",
+        question: "Is the consultation free?",
+        answer:
+          "Yes — the first consultation is a free 15-minute call so we can connect and talk about next steps.",
+        showOnHome: true,
+      },
+      {
+        _type: "faqItem",
+        _key: "f4",
+        question: "Do you accept insurance?",
+        answer:
+          "Yes. I accept several plans and can also help with out-of-network benefits through Thrizer. See the Rates & insurance page for details.",
+        showOnHome: false,
+      },
+      {
+        _type: "faqItem",
+        _key: "f5",
+        question: "How quickly can I get booked?",
+        answer:
+          "I work hard to get clients booked within a week of consult whenever possible.",
+        showOnHome: true,
+      },
+      {
+        _type: "faqItem",
+        _key: "f6",
+        question: "What should I put in the contact form?",
+        answer:
+          "Share your name, how to reach you, and a short note about scheduling. Please don’t include clinical details or sensitive health information — this form is only for getting in touch.",
+        showOnHome: false,
+      },
+    ],
+  },
+  {
     _id: "privacyPage",
     _type: "privacyPage",
     title: "Privacy",

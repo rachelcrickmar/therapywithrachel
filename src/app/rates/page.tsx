@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ButtonLink } from "@/components/ButtonLink";
 import { FadeIn } from "@/components/FadeIn";
+import { hasSanityImage, SanityImage } from "@/components/SanityImage";
 import { ThrizerWidget } from "@/components/ThrizerWidget";
 import { getRatesPage } from "@/lib/get-content";
 import { siteConfig } from "@/lib/site";
@@ -12,12 +14,13 @@ export const metadata: Metadata = {
 
 export default async function RatesPage() {
   const page = await getRatesPage();
+  const showPhoto = hasSanityImage(page.sidePhoto as never);
 
   return (
     <>
       <section className="atmosphere relative overflow-hidden border-b border-line">
         <div className="paper-grain absolute inset-0" aria-hidden />
-        <div className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+        <div className="relative mx-auto grid max-w-6xl items-end gap-10 px-5 py-20 md:grid-cols-[1.1fr_0.9fr] md:px-8 md:py-28">
           <FadeIn>
             <p className="text-sm font-medium tracking-[0.14em] text-sage uppercase">
               Finances
@@ -28,6 +31,27 @@ export default async function RatesPage() {
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted">
               {page.intro}
             </p>
+          </FadeIn>
+          <FadeIn delayMs={80}>
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl md:aspect-[5/6]">
+              {showPhoto ? (
+                <SanityImage
+                  value={page.sidePhoto as never}
+                  alt={page.sidePhotoAlt || siteConfig.therapistName}
+                  className="object-cover object-[center_20%]"
+                  fill
+                  sizes="(min-width: 768px) 35vw, 100vw"
+                />
+              ) : (
+                <Image
+                  src="/images/woman-smile.jpg"
+                  alt="Woman smiling gently in soft light"
+                  fill
+                  className="object-cover object-[center_25%]"
+                  sizes="(min-width: 768px) 35vw, 100vw"
+                />
+              )}
+            </div>
           </FadeIn>
         </div>
       </section>
@@ -80,13 +104,26 @@ export default async function RatesPage() {
           </FadeIn>
         </div>
 
-        <div className="mt-16">
-          <ThrizerWidget
-            url={page.thrizerWidgetUrl}
-            heading={page.thrizerHeading}
-            note={page.thrizerNote}
-            disclaimer={page.thrizerDisclaimer}
-          />
+        <div className="mt-16 grid items-center gap-10 md:grid-cols-[0.9fr_1.1fr]">
+          <FadeIn>
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
+              <Image
+                src="/images/young-woman-portrait.jpg"
+                alt="Young woman in soft portrait light"
+                fill
+                className="object-cover object-[center_20%]"
+                sizes="(min-width: 768px) 35vw, 100vw"
+              />
+            </div>
+          </FadeIn>
+          <FadeIn delayMs={80}>
+            <ThrizerWidget
+              url={page.thrizerWidgetUrl}
+              heading={page.thrizerHeading}
+              note={page.thrizerNote}
+              disclaimer={page.thrizerDisclaimer}
+            />
+          </FadeIn>
         </div>
       </section>
     </>

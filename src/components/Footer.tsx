@@ -31,6 +31,9 @@ export function Footer() {
             <Link href="/rates" className="hover:text-ink">
               Rates
             </Link>
+            <Link href="/faq" className="hover:text-ink">
+              FAQ
+            </Link>
             <Link href="/blog" className="hover:text-ink">
               Blog
             </Link>

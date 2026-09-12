@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { FadeIn } from "@/components/FadeIn";
 import { samplePosts } from "@/lib/content";
@@ -40,18 +41,31 @@ export default async function BlogPage() {
     <section className="atmosphere relative overflow-hidden">
       <div className="paper-grain absolute inset-0" aria-hidden />
       <div className="relative mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
-        <FadeIn>
-          <p className="text-sm font-medium tracking-[0.14em] text-sage uppercase">
-            Blog
-          </p>
-          <h1 className="mt-3 font-serif text-4xl text-ink md:text-5xl">
-            Writing
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted">
-            Short pieces for prospective and current clients. Manage posts in
-            Sanity Studio when connected.
-          </p>
-        </FadeIn>
+        <div className="grid items-end gap-10 md:grid-cols-[1.15fr_0.85fr]">
+          <FadeIn>
+            <p className="text-sm font-medium tracking-[0.14em] text-sage uppercase">
+              Blog
+            </p>
+            <h1 className="mt-3 font-serif text-4xl text-ink md:text-5xl">
+              Writing
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted">
+              Short pieces for prospective and current clients — notes on
+              therapy, getting started, and finding steadier ground.
+            </p>
+          </FadeIn>
+          <FadeIn delayMs={80}>
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl md:aspect-[5/6]">
+              <Image
+                src="/images/woman-soft-light.jpg"
+                alt="Young woman resting in soft light"
+                fill
+                className="object-cover object-[center_20%]"
+                sizes="(min-width: 768px) 32vw, 100vw"
+              />
+            </div>
+          </FadeIn>
+        </div>
 
         <ul className="mt-14 space-y-0">
           {posts.map((post, index) => (

@@ -9,7 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const slugs = await sanityFetch<string[]>({ query: postSlugsQuery });
   const postSlugs = new Set([...(slugs || []), ...samplePosts.map((p) => p.slug)]);
 
-  const staticRoutes = ["", "/about", "/rates", "/blog", "/contact", "/privacy"].map(
+  const staticRoutes = ["", "/about", "/rates", "/faq", "/blog", "/contact", "/privacy"].map(
     (path) => ({
       url: `${base}${path}`,
       lastModified: new Date(),

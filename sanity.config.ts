@@ -15,6 +15,7 @@ const SINGLETONS = [
   "ratesPage",
   "contactPage",
   "privacyPage",
+  "faqPage",
   "inquiry",
 ];
 

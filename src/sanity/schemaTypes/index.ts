@@ -3,6 +3,7 @@ import { contactPage } from "./contactPage";
 import { ctaBlock } from "./objects/ctaBlock";
 import { endorsement } from "./objects/endorsement";
 import { imageBlock } from "./objects/imageBlock";
+import { faqItem, faqPage } from "./faqPage";
 import { homePage } from "./homePage";
 import { inquiry } from "./inquiry";
 import { post } from "./post";
@@ -18,10 +19,12 @@ export const schemaTypes = [
   ratesPage,
   contactPage,
   privacyPage,
+  faqPage,
   service,
   post,
   inquiry,
   imageBlock,
   ctaBlock,
   endorsement,
+  faqItem,
 ];

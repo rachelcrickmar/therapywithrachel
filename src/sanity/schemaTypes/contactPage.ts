@@ -61,6 +61,21 @@ export const contactPage = defineType({
       initialValue:
         "Request a free 15-minute consultation. Please do not include clinical details or sensitive health information — this form is only for scheduling.",
     }),
+    defineField({
+      name: "sidePhoto",
+      title: "Photo beside the form",
+      type: "image",
+      group: "content",
+      options: { hotspot: true },
+      description:
+        "Optional photo of you. If empty, the site uses your Home page hero photo.",
+    }),
+    defineField({
+      name: "sidePhotoAlt",
+      title: "Side photo description",
+      type: "string",
+      group: "content",
+    }),
   ],
   preview: {
     prepare: () => ({ title: "Contact page" }),

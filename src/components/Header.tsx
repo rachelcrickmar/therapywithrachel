@@ -8,6 +8,7 @@ import { siteConfig } from "@/lib/site";
 const links = [
   { href: "/about", label: "About" },
   { href: "/rates", label: "Rates & insurance" },
+  { href: "/faq", label: "FAQ" },
   { href: "/blog", label: "Blog" },
 ];
 

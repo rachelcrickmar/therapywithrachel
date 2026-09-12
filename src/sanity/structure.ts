@@ -5,6 +5,7 @@ import { DocumentIcon } from "@sanity/icons/Document";
 import { DocumentTextIcon } from "@sanity/icons/DocumentText";
 import { EarthGlobeIcon } from "@sanity/icons/EarthGlobe";
 import { EnvelopeIcon } from "@sanity/icons/Envelope";
+import { HelpCircleIcon } from "@sanity/icons/HelpCircle";
 import { HomeIcon } from "@sanity/icons/Home";
 import { UsersIcon } from "@sanity/icons/Users";
 import type { ComponentType } from "react";
@@ -56,6 +57,7 @@ export const structure: StructureResolver = (S) =>
               singleton(S, "aboutPage", "About page", UsersIcon),
               singleton(S, "ratesPage", "Rates & insurance page", DocumentTextIcon),
               singleton(S, "contactPage", "Contact page", EnvelopeIcon),
+              singleton(S, "faqPage", "FAQ page", HelpCircleIcon),
               singleton(S, "privacyPage", "Privacy page", BookIcon),
             ]),
         ),

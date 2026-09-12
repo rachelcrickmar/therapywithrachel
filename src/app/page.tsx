@@ -1,7 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ButtonLink } from "@/components/ButtonLink";
 import { ContactForm } from "@/components/ContactForm";
 import { FadeIn } from "@/components/FadeIn";
+import { FaqAccordion } from "@/components/FaqAccordion";
+import { HeroAtmosphere } from "@/components/HeroAtmosphere";
 import {
   EcoIcon,
   PsychologyIcon,
@@ -10,7 +13,7 @@ import {
 } from "@/components/MaterialIcons";
 import { hasSanityImage, SanityImage } from "@/components/SanityImage";
 import { ServicesBlock } from "@/components/ServicesBlock";
-import { getHomePage, getServices } from "@/lib/get-content";
+import { getFaqPage, getHomePage, getServices } from "@/lib/get-content";
 
 export const revalidate = 30;
 
@@ -34,27 +37,23 @@ const focusPoints = [
 ];
 
 export default async function HomePage() {
-  const [services, page] = await Promise.all([getServices(), getHomePage()]);
+  const [services, page, faq] = await Promise.all([
+    getServices(),
+    getHomePage(),
+    getFaqPage(),
+  ]);
   const showHeroPhoto = hasSanityImage(page.heroImage as never);
   const consultPhoto = hasSanityImage(page.consultImage as never)
     ? page.consultImage
     : page.heroImage;
   const showConsultPhoto = hasSanityImage(consultPhoto as never);
+  const homeFaqs = faq.homeFaqs;
 
   return (
     <>
-      <section className="relative isolate overflow-hidden atmosphere">
-        <div className="paper-grain absolute inset-0" aria-hidden />
-        <div
-          className="animate-drift absolute -top-24 right-[-10%] h-[420px] w-[420px] rounded-full bg-blush-soft/40 blur-3xl"
-          aria-hidden
-        />
-        <div
-          className="animate-drift absolute bottom-10 left-[-8%] h-[320px] w-[320px] rounded-full bg-sage-soft/25 blur-3xl"
-          aria-hidden
-          style={{ animationDelay: "4s" }}
-        />
-        <div className="mx-auto grid min-h-[88vh] max-w-6xl items-end gap-10 px-5 pb-16 pt-24 md:grid-cols-[1.1fr_0.9fr] md:items-center md:px-8 md:pb-24 md:pt-28">
+      <section className="relative isolate overflow-hidden">
+        <HeroAtmosphere />
+        <div className="relative mx-auto grid min-h-[88vh] max-w-6xl items-end gap-10 px-5 pb-16 pt-24 md:grid-cols-[1.1fr_0.9fr] md:items-center md:px-8 md:pb-24 md:pt-28">
           <div className="animate-fade-up max-w-xl">
             <p className="font-serif text-4xl leading-tight tracking-tight text-ink md:text-6xl md:leading-[1.05]">
               {page.brandName}
@@ -144,10 +143,10 @@ export default async function HomePage() {
             <FadeIn delayMs={100}>
               <div className="relative aspect-[4/5] overflow-hidden rounded-2xl md:aspect-[5/6]">
                 <Image
-                  src="/images/soft-light.jpg"
-                  alt="Soft natural light through leaves"
+                  src="/images/woman-soft-light.jpg"
+                  alt="Young woman resting in soft natural light"
                   fill
-                  className="object-cover"
+                  className="object-cover object-[center_20%]"
                   sizes="(min-width: 768px) 40vw, 100vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-sage-deep/25 to-transparent" />
@@ -168,10 +167,10 @@ export default async function HomePage() {
           <FadeIn>
             <div className="relative aspect-[16/11] overflow-hidden rounded-2xl">
               <Image
-                src="/images/forest-mist.jpg"
-                alt="Misty forest path"
+                src="/images/teen-woman-outdoors.jpg"
+                alt="Teen woman outdoors in soft daylight"
                 fill
-                className="object-cover"
+                className="object-cover object-center"
                 sizes="(min-width: 768px) 45vw, 100vw"
               />
             </div>
@@ -201,6 +200,36 @@ export default async function HomePage() {
           </FadeIn>
         </div>
       </section>
+
+      {homeFaqs.length ? (
+        <section className="border-y border-line bg-stone/40">
+          <div className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+            <FadeIn>
+              <div className="flex flex-wrap items-end justify-between gap-4">
+                <div>
+                  <p className="text-sm font-medium tracking-[0.14em] text-blush-deep uppercase">
+                    FAQ
+                  </p>
+                  <h2 className="mt-3 font-serif text-3xl text-ink md:text-4xl">
+                    Common questions
+                  </h2>
+                </div>
+                <Link
+                  href="/faq"
+                  className="text-sm font-medium text-sage-deep transition hover:text-ink"
+                >
+                  View all FAQs
+                </Link>
+              </div>
+            </FadeIn>
+            <FadeIn delayMs={80}>
+              <div className="mt-10">
+                <FaqAccordion items={homeFaqs} />
+              </div>
+            </FadeIn>
+          </div>
+        </section>
+      ) : null}
 
       <section className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
         <div className="grid items-start gap-10 md:grid-cols-[0.85fr_1.15fr]">
@@ -232,10 +261,10 @@ export default async function HomePage() {
                   />
                 ) : (
                   <Image
-                    src="/images/calm-greenery.jpg"
-                    alt="Soft greenery"
+                    src="/images/young-woman-portrait.jpg"
+                    alt="Young woman looking softly toward the light"
                     fill
-                    className="object-cover"
+                    className="object-cover object-[center_20%]"
                     sizes="(min-width: 768px) 30vw, 90vw"
                   />
                 )}

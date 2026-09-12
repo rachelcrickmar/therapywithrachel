@@ -2,12 +2,14 @@ import {
   aboutContent,
   defaultServices,
   endorsements,
+  faqContent,
   homeContent,
   insuranceList,
   modalities,
   paymentMethods,
   ratesContent,
   type Endorsement,
+  type FaqItem,
   type Service,
 } from "@/lib/content";
 import { siteConfig } from "@/lib/site";
@@ -15,6 +17,7 @@ import { sanityFetch } from "@/sanity/lib/client";
 import {
   aboutPageQuery,
   contactPageQuery,
+  faqPageQuery,
   homePageQuery,
   privacyPageQuery,
   ratesPageQuery,
@@ -90,16 +93,22 @@ export async function getHomePage() {
 }
 
 export async function getAboutPage() {
-  const page = await sanityFetch<Record<string, unknown>>({
-    query: aboutPageQuery,
-    tags: ["aboutPage"],
-  });
+  const [page, home] = await Promise.all([
+    sanityFetch<Record<string, unknown>>({
+      query: aboutPageQuery,
+      tags: ["aboutPage"],
+    }),
+    getHomePage(),
+  ]);
 
   return {
     title: (page?.title as string) || aboutContent.title,
     intro: (page?.intro as string) || aboutContent.intro,
-    portrait: page?.portrait,
-    portraitAlt: (page?.portraitAlt as string) || "",
+    portrait: page?.portrait || home.heroImage,
+    portraitAlt:
+      (page?.portraitAlt as string) ||
+      home.heroImageAlt ||
+      home.heroCaptionName,
     story:
       (page?.story as string[])?.length
         ? (page?.story as string[])
@@ -132,15 +141,23 @@ export async function getAboutPage() {
 }
 
 export async function getRatesPage() {
-  const page = await sanityFetch<Record<string, unknown>>({
-    query: ratesPageQuery,
-    tags: ["ratesPage"],
-  });
+  const [page, home] = await Promise.all([
+    sanityFetch<Record<string, unknown>>({
+      query: ratesPageQuery,
+      tags: ["ratesPage"],
+    }),
+    getHomePage(),
+  ]);
   const settings = await getSiteSettings();
 
   return {
     title: (page?.title as string) || ratesContent.title,
     intro: (page?.intro as string) || ratesContent.intro,
+    sidePhoto: page?.sidePhoto || home.heroImage,
+    sidePhotoAlt:
+      (page?.sidePhotoAlt as string) ||
+      home.heroImageAlt ||
+      home.heroCaptionName,
     feesHeading: (page?.feesHeading as string) || "Fees",
     sessionFee: (page?.sessionFee as string) || siteConfig.sessionFee,
     sessionFeeLabel: (page?.sessionFeeLabel as string) || "per individual session",
@@ -175,10 +192,13 @@ export async function getRatesPage() {
 }
 
 export async function getContactPage() {
-  const page = await sanityFetch<Record<string, unknown>>({
-    query: contactPageQuery,
-    tags: ["contactPage"],
-  });
+  const [page, home] = await Promise.all([
+    sanityFetch<Record<string, unknown>>({
+      query: contactPageQuery,
+      tags: ["contactPage"],
+    }),
+    getHomePage(),
+  ]);
 
   return {
     eyebrow: (page?.eyebrow as string) || "Contact",
@@ -194,6 +214,34 @@ export async function getContactPage() {
     formIntro:
       (page?.formIntro as string) ||
       "Request a free 15-minute consultation. Please do not include clinical details or sensitive health information — this form is only for scheduling.",
+    sidePhoto: page?.sidePhoto || home.heroImage,
+    sidePhotoAlt:
+      (page?.sidePhotoAlt as string) ||
+      home.heroImageAlt ||
+      home.heroCaptionName,
+  };
+}
+
+export async function getFaqPage() {
+  const page = await sanityFetch<{
+    title?: string;
+    intro?: string;
+    faqs?: FaqItem[];
+  }>({
+    query: faqPageQuery,
+    tags: ["faqPage"],
+  });
+
+  const faqs =
+    page?.faqs?.filter((item) => item?.question && item?.answer)?.length
+      ? (page.faqs as FaqItem[])
+      : faqContent.faqs;
+
+  return {
+    title: page?.title || faqContent.title,
+    intro: page?.intro || faqContent.intro,
+    faqs,
+    homeFaqs: faqs.filter((item) => item.showOnHome).slice(0, 4),
   };
 }
 

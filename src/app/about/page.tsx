@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ButtonLink } from "@/components/ButtonLink";
 import { FadeIn } from "@/components/FadeIn";
-import { SanityImage } from "@/components/SanityImage";
+import { hasSanityImage, SanityImage } from "@/components/SanityImage";
 import { ServicesBlock } from "@/components/ServicesBlock";
 import { getAboutPage, getServices } from "@/lib/get-content";
 import { siteConfig } from "@/lib/site";
@@ -13,12 +14,13 @@ export const metadata: Metadata = {
 
 export default async function AboutPage() {
   const [services, page] = await Promise.all([getServices(), getAboutPage()]);
+  const showPortrait = hasSanityImage(page.portrait as never);
 
   return (
     <>
       <section className="atmosphere relative overflow-hidden border-b border-line">
         <div className="paper-grain absolute inset-0" aria-hidden />
-        <div className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+        <div className="relative mx-auto grid max-w-6xl items-end gap-10 px-5 py-20 md:grid-cols-[1.15fr_0.85fr] md:px-8 md:py-28">
           <FadeIn>
             <p className="text-sm font-medium tracking-[0.14em] text-blush-deep uppercase">
               About
@@ -30,20 +32,33 @@ export default async function AboutPage() {
               {page.intro}
             </p>
           </FadeIn>
+          <FadeIn delayMs={80}>
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
+              {showPortrait ? (
+                <SanityImage
+                  value={page.portrait as never}
+                  alt={page.portraitAlt || siteConfig.therapistName}
+                  className="object-cover object-[center_20%]"
+                  fill
+                  sizes="(min-width: 768px) 35vw, 100vw"
+                />
+              ) : (
+                <Image
+                  src="/images/woman-window-light.jpg"
+                  alt="Woman standing near a bright window"
+                  fill
+                  className="object-cover object-[center_20%]"
+                  sizes="(min-width: 768px) 35vw, 100vw"
+                />
+              )}
+            </div>
+          </FadeIn>
         </div>
       </section>
 
       <section className="mx-auto grid max-w-6xl gap-12 px-5 py-20 md:grid-cols-[1.2fr_0.8fr] md:px-8 md:py-28">
         <FadeIn>
           <div className="space-y-5">
-            {page.portrait ? (
-              <SanityImage
-                value={page.portrait as never}
-                alt={page.portraitAlt || siteConfig.therapistName}
-                className="mb-8 aspect-[4/5] w-full max-w-md rounded-sm object-cover"
-                sizes="(min-width: 768px) 40vw, 100vw"
-              />
-            ) : null}
             {page.story.map((paragraph) => (
               <p
                 key={paragraph.slice(0, 40)}
@@ -82,6 +97,28 @@ export default async function AboutPage() {
             <ButtonLink href="/contact">{page.sidebarButtonLabel}</ButtonLink>
           </aside>
         </FadeIn>
+      </section>
+
+      <section className="border-y border-line bg-mist/50">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 md:grid-cols-2 md:px-8 md:py-20">
+          <FadeIn>
+            <div className="relative aspect-[16/11] overflow-hidden rounded-2xl">
+              <Image
+                src="/images/woman-calm.jpg"
+                alt="Woman sitting calmly in soft light"
+                fill
+                className="object-cover"
+                sizes="(min-width: 768px) 45vw, 100vw"
+              />
+            </div>
+          </FadeIn>
+          <FadeIn delayMs={80}>
+            <p className="font-serif text-2xl leading-relaxed text-ink md:text-3xl">
+              A steady, collaborative space for women and teens navigating
+              trauma, OCD, ADHD, and the weight of everyday life.
+            </p>
+          </FadeIn>
+        </div>
       </section>
 
       <ServicesBlock

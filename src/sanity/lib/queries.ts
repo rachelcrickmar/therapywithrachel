@@ -99,10 +99,26 @@ export const aboutPageQuery = groq`
   }
 `;
 
+export const contactPageQuery = groq`
+  *[_id == "contactPage"][0] {
+    eyebrow,
+    title,
+    intro,
+    locationLabel,
+    locationText,
+    formHeading,
+    formIntro,
+    sidePhoto { ${imageFields} },
+    sidePhotoAlt
+  }
+`;
+
 export const ratesPageQuery = groq`
   *[_id == "ratesPage"][0] {
     title,
     intro,
+    sidePhoto { ${imageFields} },
+    sidePhotoAlt,
     feesHeading,
     sessionFee,
     sessionFeeLabel,
@@ -120,15 +136,15 @@ export const ratesPageQuery = groq`
   }
 `;
 
-export const contactPageQuery = groq`
-  *[_id == "contactPage"][0] {
-    eyebrow,
+export const faqPageQuery = groq`
+  *[_id == "faqPage"][0] {
     title,
     intro,
-    locationLabel,
-    locationText,
-    formHeading,
-    formIntro
+    faqs[] {
+      question,
+      answer,
+      showOnHome
+    }
   }
 `;
 
