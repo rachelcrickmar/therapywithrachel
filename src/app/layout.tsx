@@ -40,6 +40,10 @@ export async function generateMetadata(): Promise<Metadata> {
       title: settings.practiceName,
       description,
     },
+    icons: {
+      icon: [{ url: "/favicon.png", type: "image/png" }],
+      apple: [{ url: "/favicon.png", type: "image/png" }],
+    },
   };
 }
 

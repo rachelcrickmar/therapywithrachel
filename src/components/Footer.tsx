@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BrandMark } from "@/components/BrandMark";
 import type { SiteLink } from "@/lib/site";
 
 type FooterProps = {
@@ -43,7 +44,10 @@ export function Footer({
     <footer className="mt-auto border-t border-line bg-stone-warm/50">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-[1.4fr_1fr] md:px-8">
         <div className="space-y-4">
-          <p className="font-serif text-2xl text-ink">{practiceName}</p>
+          <p className="flex items-center gap-3 font-serif text-2xl text-ink">
+            <BrandMark size={40} className="h-10 w-10" />
+            <span>{practiceName}</span>
+          </p>
           <p className="max-w-md whitespace-pre-line text-sm leading-relaxed text-ink-muted">
             {footerTagline}
           </p>

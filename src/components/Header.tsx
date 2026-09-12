@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { BrandMark } from "@/components/BrandMark";
 import type { SiteLink } from "@/lib/site";
 
 type HeaderProps = {
@@ -30,9 +31,10 @@ export function Header({
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 md:px-8">
         <Link
           href="/"
-          className="font-serif text-xl tracking-tight text-ink transition hover:text-sage-deep md:text-2xl"
+          className="flex items-center gap-2.5 font-serif text-xl tracking-tight text-ink transition hover:text-sage-deep md:gap-3 md:text-2xl"
         >
-          {practiceName}
+          <BrandMark size={34} className="h-[1.85rem] w-[1.85rem] md:h-9 md:w-9" />
+          <span>{practiceName}</span>
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
