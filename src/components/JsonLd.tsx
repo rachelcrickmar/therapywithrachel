@@ -10,7 +10,6 @@ export function JsonLd() {
     alternateName: siteConfig.name,
     description: siteConfig.description,
     url,
-    telephone: siteConfig.phone,
     areaServed: [
       {
         "@type": "City",

@@ -20,7 +20,7 @@ export function Header() {
   }
 
   return (
-    <header className="relative z-40 border-b border-line/70 bg-paper/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-line/70 bg-paper/90 backdrop-blur-md supports-[backdrop-filter]:bg-paper/80">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 md:px-8">
         <Link
           href="/"
@@ -65,7 +65,7 @@ export function Header() {
       {open ? (
         <nav
           id="mobile-nav"
-          className="border-t border-line px-5 py-4 md:hidden"
+          className="border-t border-line bg-paper/95 px-5 py-4 md:hidden"
           aria-label="Mobile"
         >
           <ul className="flex flex-col gap-3">

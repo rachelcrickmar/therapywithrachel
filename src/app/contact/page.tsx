@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
 import { FadeIn } from "@/components/FadeIn";
+import { getContactPage } from "@/lib/get-content";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -8,7 +9,9 @@ export const metadata: Metadata = {
   description: `Request a free ${siteConfig.consultLength} consultation with ${siteConfig.therapistName}.`,
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const page = await getContactPage();
+
   return (
     <section className="atmosphere relative overflow-hidden">
       <div className="paper-grain absolute inset-0" aria-hidden />
@@ -16,37 +19,24 @@ export default function ContactPage() {
         <FadeIn>
           <div>
             <p className="text-sm font-medium tracking-[0.14em] text-sage uppercase">
-              Contact
+              {page.eyebrow}
             </p>
             <h1 className="mt-3 font-serif text-4xl text-ink md:text-5xl">
-              Let&apos;s connect
+              {page.title}
             </h1>
             <p className="mt-6 text-base leading-relaxed text-ink-muted md:text-lg">
-              Share a short note to request a free {siteConfig.consultLength}{" "}
-              consultation. I work hard to get clients booked within a week of
-              consult.
+              {page.intro}
             </p>
             <dl className="mt-10 space-y-4 text-sm text-ink-muted">
               <div>
-                <dt className="font-medium text-ink">Phone</dt>
-                <dd>
-                  <a href={siteConfig.phoneHref} className="hover:text-sage-deep">
-                    {siteConfig.phone}
-                  </a>
-                </dd>
-              </div>
-              <div>
-                <dt className="font-medium text-ink">Location</dt>
-                <dd>
-                  {siteConfig.location} · In-person and online across North
-                  Carolina
-                </dd>
+                <dt className="font-medium text-ink">{page.locationLabel}</dt>
+                <dd>{page.locationText}</dd>
               </div>
             </dl>
           </div>
         </FadeIn>
         <FadeIn delayMs={100}>
-          <ContactForm />
+          <ContactForm heading={page.formHeading} intro={page.formIntro} />
         </FadeIn>
       </div>
     </section>

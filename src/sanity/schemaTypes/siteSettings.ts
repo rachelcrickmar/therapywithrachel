@@ -4,7 +4,7 @@ export const siteSettings = defineType({
   name: "siteSettings",
   title: "Site settings",
   type: "document",
-  description: "Practice contact details and tools shown on the website.",
+  description: "Practice-wide details used across the website.",
   fields: [
     defineField({
       name: "practiceName",
@@ -14,16 +14,17 @@ export const siteSettings = defineType({
       description: "Shown in the header and footer.",
     }),
     defineField({
-      name: "phone",
-      title: "Phone number",
+      name: "email",
+      title: "Practice email (optional)",
       type: "string",
-      description: "Example: (984) 300-4524",
+      description: "For your records / future use. Not shown publicly unless you add it to a page.",
     }),
     defineField({
-      name: "email",
-      title: "Practice email",
+      name: "location",
+      title: "Location line",
       type: "string",
-      description: "Optional public email if you want it on the site later.",
+      initialValue: "Wake Forest, NC",
+      description: "Used in the footer and elsewhere.",
     }),
     defineField({
       name: "thrizerWidgetUrl",

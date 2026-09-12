@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FadeIn } from "@/components/FadeIn";
 import { PortableBody } from "@/components/PortableBody";
+import { SanityImage } from "@/components/SanityImage";
 import { samplePosts } from "@/lib/content";
 import { sanityFetch } from "@/sanity/lib/client";
 import { postBySlugQuery, postSlugsQuery } from "@/sanity/lib/queries";
@@ -14,6 +15,8 @@ type Post = {
   excerpt?: string;
   publishedAt?: string;
   body?: unknown;
+  coverImage?: unknown;
+  coverImageAlt?: string;
 };
 
 type Props = {
@@ -100,6 +103,19 @@ export default async function BlogPostPage({ params }: Props) {
             </time>
           ) : null}
         </FadeIn>
+
+        {post.coverImage ? (
+          <div className="mt-10 overflow-hidden rounded-sm">
+            <SanityImage
+              value={post.coverImage as never}
+              alt={post.coverImageAlt || post.title}
+              className="h-auto w-full object-cover"
+              sizes="(min-width: 768px) 720px, 100vw"
+              priority
+            />
+          </div>
+        ) : null}
+
         <div className="mt-10">
           <PortableBody value={post.body} />
         </div>

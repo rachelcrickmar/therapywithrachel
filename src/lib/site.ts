@@ -4,8 +4,6 @@ export const siteConfig = {
   therapistName: "Rachel Crickmar",
   credentials: "MSW, LCSWA",
   license: "Licensed by the State of North Carolina / P022493",
-  phone: "(984) 300-4524",
-  phoneHref: "tel:+19843004524",
   location: "Wake Forest, NC",
   zip: "27587",
   sessionFee: "$150",

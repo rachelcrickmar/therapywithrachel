@@ -1,0 +1,161 @@
+import { defineField, defineType } from "sanity";
+
+export const homePage = defineType({
+  name: "homePage",
+  title: "Home page",
+  type: "document",
+  groups: [
+    { name: "hero", title: "1. Top of page (hero)", default: true },
+    { name: "who", title: "2. Who I work with" },
+    { name: "services", title: "3. Services section" },
+    { name: "approach", title: "4. How I help" },
+    { name: "cta", title: "5. Bottom call to action" },
+  ],
+  fields: [
+    defineField({
+      name: "brandName",
+      title: "Brand name (large text)",
+      type: "string",
+      group: "hero",
+      description: "Usually “Therapy With Rachel”.",
+      initialValue: "Therapy With Rachel",
+    }),
+    defineField({
+      name: "headline",
+      title: "Headline under the brand name",
+      type: "string",
+      group: "hero",
+      initialValue: "Feel freer in daily life again.",
+    }),
+    defineField({
+      name: "subhead",
+      title: "Supporting sentence",
+      type: "text",
+      rows: 3,
+      group: "hero",
+    }),
+    defineField({
+      name: "heroImage",
+      title: "Hero photo",
+      type: "image",
+      group: "hero",
+      options: { hotspot: true },
+      description: "Your photo or an atmospheric image. Leave blank for a soft placeholder.",
+    }),
+    defineField({
+      name: "heroImageAlt",
+      title: "Hero photo description",
+      type: "string",
+      group: "hero",
+    }),
+    defineField({
+      name: "heroCaptionName",
+      title: "Name on the photo",
+      type: "string",
+      group: "hero",
+      initialValue: "Rachel Crickmar",
+    }),
+    defineField({
+      name: "heroCaptionDetail",
+      title: "Line under the name on the photo",
+      type: "string",
+      group: "hero",
+      initialValue: "MSW, LCSWA · Wake Forest, NC",
+    }),
+    defineField({
+      name: "primaryButtonLabel",
+      title: "Primary button text",
+      type: "string",
+      group: "hero",
+      initialValue: "Get in touch",
+    }),
+    defineField({
+      name: "secondaryButtonLabel",
+      title: "Secondary button text",
+      type: "string",
+      group: "hero",
+      initialValue: "About Rachel",
+    }),
+    defineField({
+      name: "consultNote",
+      title: "Small note under the buttons",
+      type: "string",
+      group: "hero",
+      description: "Example: Free 15-minute consultation",
+      initialValue: "Free 15-minute consultation",
+    }),
+
+    defineField({
+      name: "whoHeading",
+      title: "Section heading",
+      type: "string",
+      group: "who",
+      initialValue: "Who I work with",
+    }),
+    defineField({
+      name: "whoBody",
+      title: "Section text",
+      type: "text",
+      rows: 6,
+      group: "who",
+    }),
+
+    defineField({
+      name: "servicesHeading",
+      title: "Services heading",
+      type: "string",
+      group: "services",
+      initialValue: "How we can work together",
+    }),
+    defineField({
+      name: "servicesIntro",
+      title: "Services intro sentence",
+      type: "text",
+      rows: 2,
+      group: "services",
+      initialValue:
+        "Focused support for trauma, OCD, ADHD, and anxiety — with approaches chosen together.",
+    }),
+
+    defineField({
+      name: "approachHeading",
+      title: "Section heading",
+      type: "string",
+      group: "approach",
+      initialValue: "How I help",
+    }),
+    defineField({
+      name: "approachBody",
+      title: "Section text",
+      type: "text",
+      rows: 5,
+      group: "approach",
+    }),
+    defineField({
+      name: "modalities",
+      title: "Therapy approaches listed",
+      type: "array",
+      group: "approach",
+      of: [{ type: "string" }],
+      description: "Add one approach per line (EMDR, ERP, etc.).",
+    }),
+
+    defineField({
+      name: "ctaHeading",
+      title: "Heading",
+      type: "string",
+      group: "cta",
+      initialValue: "Free consultation",
+    }),
+    defineField({
+      name: "ctaBody",
+      title: "Text next to the form",
+      type: "text",
+      rows: 4,
+      group: "cta",
+    }),
+  ],
+  preview: {
+    prepare: () => ({ title: "Home page" }),
+  },
+});

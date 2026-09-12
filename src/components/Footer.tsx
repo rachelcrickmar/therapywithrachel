@@ -21,11 +21,6 @@ export function Footer() {
             <br />
             {siteConfig.location} · In-person and online across North Carolina
           </p>
-          <p className="text-sm text-ink-muted">
-            <a className="hover:text-sage-deep" href={siteConfig.phoneHref}>
-              {siteConfig.phone}
-            </a>
-          </p>
         </div>
 
         <div className="space-y-4 text-sm text-ink-muted">

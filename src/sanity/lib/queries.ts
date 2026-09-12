@@ -1,5 +1,15 @@
 import { groq } from "next-sanity";
 
+const imageFields = `
+  asset->{
+    _id,
+    url,
+    metadata { lqip, dimensions }
+  },
+  hotspot,
+  crop
+`;
+
 export const servicesQuery = groq`
   *[_type == "service"] | order(order asc) {
     title,
@@ -15,7 +25,8 @@ export const postsQuery = groq`
     "slug": slug.current,
     excerpt,
     publishedAt,
-    coverImage
+    coverImage { ${imageFields} },
+    coverImageAlt
   }
 `;
 
@@ -26,8 +37,15 @@ export const postBySlugQuery = groq`
     "slug": slug.current,
     excerpt,
     publishedAt,
-    coverImage,
-    body
+    coverImage { ${imageFields} },
+    coverImageAlt,
+    body[] {
+      ...,
+      _type == "imageBlock" => {
+        ...,
+        image { ${imageFields} }
+      }
+    }
   }
 `;
 
@@ -38,10 +56,100 @@ export const postSlugsQuery = groq`
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0] {
     practiceName,
-    phone,
     email,
+    location,
     thrizerWidgetUrl,
     seoTitle,
     seoDescription
+  }
+`;
+
+export const homePageQuery = groq`
+  *[_type == "homePage"][0] {
+    brandName,
+    headline,
+    subhead,
+    heroImage { ${imageFields} },
+    heroImageAlt,
+    heroCaptionName,
+    heroCaptionDetail,
+    primaryButtonLabel,
+    secondaryButtonLabel,
+    consultNote,
+    whoHeading,
+    whoBody,
+    servicesHeading,
+    servicesIntro,
+    approachHeading,
+    approachBody,
+    modalities,
+    ctaHeading,
+    ctaBody
+  }
+`;
+
+export const aboutPageQuery = groq`
+  *[_type == "aboutPage"][0] {
+    title,
+    intro,
+    portrait { ${imageFields} },
+    portraitAlt,
+    story,
+    qualificationsHeading,
+    qualifications,
+    approachesHeading,
+    approaches,
+    availability,
+    sidebarButtonLabel,
+    servicesHeading,
+    servicesIntro,
+    endorsementsHeading,
+    endorsements
+  }
+`;
+
+export const ratesPageQuery = groq`
+  *[_type == "ratesPage"][0] {
+    title,
+    intro,
+    feesHeading,
+    sessionFee,
+    sessionFeeLabel,
+    feeNote,
+    paymentMethodsHeading,
+    paymentMethods,
+    insuranceHeading,
+    insuranceIntro,
+    insuranceList,
+    insuranceButtonLabel,
+    thrizerHeading,
+    thrizerNote,
+    thrizerDisclaimer,
+    thrizerWidgetUrl
+  }
+`;
+
+export const contactPageQuery = groq`
+  *[_type == "contactPage"][0] {
+    eyebrow,
+    title,
+    intro,
+    locationLabel,
+    locationText,
+    formHeading,
+    formIntro
+  }
+`;
+
+export const privacyPageQuery = groq`
+  *[_type == "privacyPage"][0] {
+    title,
+    body[] {
+      ...,
+      _type == "imageBlock" => {
+        ...,
+        image { ${imageFields} }
+      }
+    }
   }
 `;

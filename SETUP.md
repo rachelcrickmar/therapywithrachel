@@ -33,15 +33,21 @@ npm install
 npm run dev
 ```
 
+Optional: seed editable page documents in Sanity (safe to re-run):
+
+```bash
+node scripts/seed-pages.mjs
+```
+
 - Site: http://localhost:3000
 - Admin editor: http://localhost:3000/admin (Sanity login required)
 
-Sign in at `/admin` with Rachel’s Sanity account. The left menu is simplified:
+Sign in at `/admin` with Rachel’s Sanity account. The left menu includes:
 
-- **New messages** — contact form inquiries that need a reply
-- **Write a blog post** — create/edit articles
-- **Services** — therapy areas on the site
-- **Site settings** — phone, email, Thrizer link
+- **New messages** — contact form inquiries
+- **Edit website pages** — Home, About, Rates, Contact, Privacy (labeled sections)
+- **Services** / **Write a blog post** — blog supports images + book CTA blocks
+- **Site settings** — practice name, location, Thrizer link
 
 The site ships with fallback copy until CMS content exists.
 

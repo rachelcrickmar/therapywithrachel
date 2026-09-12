@@ -4,7 +4,17 @@ import { useState } from "react";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export function ContactForm({ compact = false }: { compact?: boolean }) {
+type ContactFormProps = {
+  compact?: boolean;
+  heading?: string;
+  intro?: string;
+};
+
+export function ContactForm({
+  compact = false,
+  heading = "Get in touch",
+  intro = "Request a free 15-minute consultation. Please do not include clinical details or sensitive health information — this form is only for scheduling.",
+}: ContactFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
 
@@ -51,17 +61,10 @@ export function ContactForm({ compact = false }: { compact?: boolean }) {
       noValidate
     >
       <div className="space-y-2">
-        <h2 className="font-serif text-2xl text-ink md:text-3xl">
-          Get in touch
-        </h2>
-        <p className="text-sm leading-relaxed text-ink-muted">
-          Request a free 15-minute consultation. Please do not include clinical
-          details or sensitive health information — this form is only for
-          scheduling.
-        </p>
+        <h2 className="font-serif text-2xl text-ink md:text-3xl">{heading}</h2>
+        <p className="text-sm leading-relaxed text-ink-muted">{intro}</p>
       </div>
 
-      {/* Honeypot */}
       <input
         type="text"
         name="company"

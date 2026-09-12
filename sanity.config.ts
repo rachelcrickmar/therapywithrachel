@@ -8,6 +8,16 @@ import { structure } from "./src/sanity/structure";
 
 const configuredProjectId = projectId || "placeholder";
 
+const SINGLETONS = [
+  "siteSettings",
+  "homePage",
+  "aboutPage",
+  "ratesPage",
+  "contactPage",
+  "privacyPage",
+  "inquiry",
+];
+
 export default defineConfig({
   name: "therapy-with-rachel",
   title: "Therapy With Rachel — Admin",
@@ -18,14 +28,13 @@ export default defineConfig({
     types: schemaTypes,
     templates: (prev) =>
       prev
-        .filter((template) => template.schemaType !== "inquiry")
-        .filter((template) => template.schemaType !== "siteSettings")
+        .filter((template) => !SINGLETONS.includes(template.schemaType))
         .map((template) => {
           if (template.schemaType === "post") {
             return {
               ...template,
               title: "Blog post",
-              description: "A new article for the Blog page",
+              description: "A new article — add text, images, and book CTAs",
             };
           }
           if (template.schemaType === "service") {
@@ -48,9 +57,7 @@ export default defineConfig({
     newDocumentOptions: (prev, { creationContext }) => {
       if (creationContext.type === "global") {
         return prev.filter(
-          (template) =>
-            template.templateId !== "inquiry" &&
-            template.templateId !== "siteSettings",
+          (template) => !SINGLETONS.includes(template.templateId),
         );
       }
       return prev;
