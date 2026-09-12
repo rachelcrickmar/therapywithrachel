@@ -33,7 +33,7 @@ npm install
 npm run dev
 ```
 
-Optional: seed editable page documents in Sanity (safe to re-run):
+Optional: create missing Sanity page documents (skips any doc that already exists — never overwrites Admin edits):
 
 ```bash
 node scripts/seed-pages.mjs
