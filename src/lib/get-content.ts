@@ -81,6 +81,11 @@ export async function getHomePage() {
         : [...modalities],
     ctaHeading: (page?.ctaHeading as string) || homeContent.ctaHeading,
     ctaBody: (page?.ctaBody as string) || homeContent.ctaBody,
+    consultImage: page?.consultImage || page?.heroImage,
+    consultImageAlt:
+      (page?.consultImageAlt as string) ||
+      (page?.heroImageAlt as string) ||
+      "",
   };
 }
 

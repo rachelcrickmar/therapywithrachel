@@ -1,17 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --mist: #e8eef0;
-  --mist-deep: #d4e0e4;
-  --sage: #5f7a6e;
-  --sage-deep: #3f564c;
-  --sage-soft: #a8bfb4;
-  --ink: #1c2a26;
+  /* Forest green — more saturated */
+  --mist: #e7f0ea;
+  --mist-deep: #c5ddd0;
+  --sage: #3d7a5f;
+  --sage-deep: #1f5c40;
+  --sage-soft: #7eb89a;
+  /* Soft rose/pink accent */
+  --blush: #e8a4b8;
+  --blush-deep: #c96b88;
+  --blush-soft: #f3d0db;
+  /* Neutrals */
+  --ink: #1a2420;
   --ink-muted: #4a5a54;
-  --stone: #f3f1ec;
-  --stone-warm: #ebe6dc;
-  --paper: #f7f8f7;
-  --accent: #6b8f9c;
+  --stone: #f4f1ec;
+  --stone-warm: #ebe4dc;
+  --paper: #faf9f7;
+  --accent: var(--blush-deep);
   --line: color-mix(in oklab, var(--ink) 12%, transparent);
   --background: var(--paper);
   --foreground: var(--ink);
@@ -25,6 +31,9 @@
   --color-sage: var(--sage);
   --color-sage-deep: var(--sage-deep);
   --color-sage-soft: var(--sage-soft);
+  --color-blush: var(--blush);
+  --color-blush-deep: var(--blush-deep);
+  --color-blush-soft: var(--blush-soft);
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --color-stone: var(--stone);
@@ -47,15 +56,16 @@ body {
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--sage) 28%, white);
+  background: color-mix(in oklab, var(--blush) 40%, white);
   color: var(--ink);
 }
 
 .atmosphere {
   background:
-    radial-gradient(1200px 600px at 12% -10%, color-mix(in oklab, var(--mist-deep) 80%, white), transparent 60%),
-    radial-gradient(900px 500px at 90% 10%, color-mix(in oklab, var(--sage-soft) 35%, white), transparent 55%),
-    linear-gradient(180deg, var(--mist) 0%, var(--paper) 55%, var(--stone) 100%);
+    radial-gradient(1100px 560px at 8% -8%, color-mix(in oklab, var(--mist-deep) 70%, white), transparent 58%),
+    radial-gradient(900px 480px at 92% 8%, color-mix(in oklab, var(--blush-soft) 55%, white), transparent 52%),
+    radial-gradient(700px 400px at 70% 90%, color-mix(in oklab, var(--sage-soft) 25%, white), transparent 50%),
+    linear-gradient(180deg, var(--mist) 0%, var(--paper) 48%, var(--stone) 100%);
 }
 
 .paper-grain {
@@ -64,6 +74,17 @@ body {
   background-size: 180px 180px;
   opacity: 0.035;
   pointer-events: none;
+}
+
+.hero-fade {
+  background: linear-gradient(
+    to top,
+    color-mix(in oklab, var(--paper) 96%, transparent) 0%,
+    color-mix(in oklab, var(--paper) 88%, transparent) 22%,
+    color-mix(in oklab, var(--paper) 55%, transparent) 48%,
+    color-mix(in oklab, var(--paper) 12%, transparent) 72%,
+    transparent 100%
+  );
 }
 
 @keyframes fade-up {

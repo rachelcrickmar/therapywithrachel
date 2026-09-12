@@ -20,7 +20,7 @@ export default async function AboutPage() {
         <div className="paper-grain absolute inset-0" aria-hidden />
         <div className="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
           <FadeIn>
-            <p className="text-sm font-medium tracking-[0.14em] text-sage uppercase">
+            <p className="text-sm font-medium tracking-[0.14em] text-blush-deep uppercase">
               About
             </p>
             <h1 className="mt-3 max-w-2xl font-serif text-4xl text-ink md:text-5xl">

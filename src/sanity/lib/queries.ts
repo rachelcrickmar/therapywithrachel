@@ -73,7 +73,9 @@ export const homePageQuery = groq`
     approachBody,
     modalities,
     ctaHeading,
-    ctaBody
+    ctaBody,
+    consultImage { ${imageFields} },
+    consultImageAlt
   }
 `;
 

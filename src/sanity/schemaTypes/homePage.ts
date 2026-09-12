@@ -154,6 +154,21 @@ export const homePage = defineType({
       rows: 4,
       group: "cta",
     }),
+    defineField({
+      name: "consultImage",
+      title: "Photo beside the consultation form",
+      type: "image",
+      group: "cta",
+      options: { hotspot: true },
+      description:
+        "Optional. If empty, the site reuses your hero photo here.",
+    }),
+    defineField({
+      name: "consultImageAlt",
+      title: "Consultation photo description",
+      type: "string",
+      group: "cta",
+    }),
   ],
   preview: {
     prepare: () => ({ title: "Home page" }),
