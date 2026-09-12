@@ -46,7 +46,7 @@ export function Header() {
           ))}
           <Link
             href="/contact"
-            className="rounded-md bg-sage-deep px-4 py-2 text-sm font-medium text-paper transition hover:bg-ink"
+            className="btn-cta-attention rounded-md bg-sage-deep px-4 py-2 text-sm font-medium text-paper transition hover:bg-ink"
           >
             Get in touch
           </Link>
@@ -84,7 +84,7 @@ export function Header() {
             <li>
               <Link
                 href="/contact"
-                className="mt-2 inline-flex rounded-md bg-sage-deep px-4 py-2 text-sm font-medium text-paper"
+                className="btn-cta-attention mt-2 inline-flex rounded-md bg-sage-deep px-4 py-2 text-sm font-medium text-paper"
                 onClick={() => setOpen(false)}
               >
                 Get in touch

@@ -44,10 +44,10 @@ export default async function RatesPage() {
                 />
               ) : (
                 <Image
-                  src="/images/woman-smile.jpg"
-                  alt="Woman smiling gently in soft light"
+                  src="/images/session-talking.jpg"
+                  alt="Two people talking together in a supportive session"
                   fill
-                  className="object-cover object-[center_25%]"
+                  className="object-cover object-center"
                   sizes="(min-width: 768px) 35vw, 100vw"
                 />
               )}
@@ -108,10 +108,10 @@ export default async function RatesPage() {
           <FadeIn>
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
               <Image
-                src="/images/young-woman-portrait.jpg"
-                alt="Young woman in soft portrait light"
+                src="/images/session-support.jpg"
+                alt="Hands and conversation during a counseling moment"
                 fill
-                className="object-cover object-[center_20%]"
+                className="object-cover object-center"
                 sizes="(min-width: 768px) 35vw, 100vw"
               />
             </div>

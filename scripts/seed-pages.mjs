@@ -289,6 +289,12 @@ const docs = [
 ];
 
 for (const doc of docs) {
-  await client.createOrReplace(doc);
-  console.log("seeded", doc._id);
+  // Create missing docs only. Never patch/replace — Rachel's Admin edits must stay intact.
+  const existing = await client.fetch(`*[_id == $id][0]._id`, { id: doc._id });
+  if (existing) {
+    console.log("kept existing", doc._id);
+    continue;
+  }
+  await client.create(doc);
+  console.log("created", doc._id);
 }

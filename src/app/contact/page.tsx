@@ -49,10 +49,10 @@ export default async function ContactPage() {
                 />
               ) : (
                 <Image
-                  src="/images/woman-window-light.jpg"
-                  alt="Woman near a bright window"
+                  src="/images/session-conversation.jpg"
+                  alt="A calm therapy conversation in progress"
                   fill
-                  className="object-cover object-[center_20%]"
+                  className="object-cover object-center"
                   sizes="(min-width: 768px) 28vw, 90vw"
                 />
               )}

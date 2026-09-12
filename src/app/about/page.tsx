@@ -32,9 +32,9 @@ export default async function AboutPage() {
               {page.intro}
             </p>
           </FadeIn>
-          <FadeIn delayMs={80}>
-            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
-              {showPortrait ? (
+          {showPortrait ? (
+            <FadeIn delayMs={80}>
+              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
                 <SanityImage
                   value={page.portrait as never}
                   alt={page.portraitAlt || siteConfig.therapistName}
@@ -42,17 +42,9 @@ export default async function AboutPage() {
                   fill
                   sizes="(min-width: 768px) 35vw, 100vw"
                 />
-              ) : (
-                <Image
-                  src="/images/woman-window-light.jpg"
-                  alt="Woman standing near a bright window"
-                  fill
-                  className="object-cover object-[center_20%]"
-                  sizes="(min-width: 768px) 35vw, 100vw"
-                />
-              )}
-            </div>
-          </FadeIn>
+              </div>
+            </FadeIn>
+          ) : null}
         </div>
       </section>
 
@@ -104,8 +96,8 @@ export default async function AboutPage() {
           <FadeIn>
             <div className="relative aspect-[16/11] overflow-hidden rounded-2xl">
               <Image
-                src="/images/woman-calm.jpg"
-                alt="Woman sitting calmly in soft light"
+                src="/images/session-couch.jpg"
+                alt="Therapist and client in conversation on a couch"
                 fill
                 className="object-cover"
                 sizes="(min-width: 768px) 45vw, 100vw"

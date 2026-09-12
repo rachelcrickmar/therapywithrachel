@@ -143,10 +143,10 @@ export default async function HomePage() {
             <FadeIn delayMs={100}>
               <div className="relative aspect-[4/5] overflow-hidden rounded-2xl md:aspect-[5/6]">
                 <Image
-                  src="/images/woman-soft-light.jpg"
-                  alt="Young woman resting in soft natural light"
+                  src="/images/session-conversation.jpg"
+                  alt="Two women talking together in a calm therapy session"
                   fill
-                  className="object-cover object-[center_20%]"
+                  className="object-cover object-center"
                   sizes="(min-width: 768px) 40vw, 100vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-sage-deep/25 to-transparent" />
@@ -167,8 +167,8 @@ export default async function HomePage() {
           <FadeIn>
             <div className="relative aspect-[16/11] overflow-hidden rounded-2xl">
               <Image
-                src="/images/teen-woman-outdoors.jpg"
-                alt="Teen woman outdoors in soft daylight"
+                src="/images/session-listening.jpg"
+                alt="Therapist and client talking during a counseling session"
                 fill
                 className="object-cover object-center"
                 sizes="(min-width: 768px) 45vw, 100vw"
@@ -261,10 +261,10 @@ export default async function HomePage() {
                   />
                 ) : (
                   <Image
-                    src="/images/young-woman-portrait.jpg"
-                    alt="Young woman looking softly toward the light"
+                    src="/images/session-support.jpg"
+                    alt="Supportive conversation during a therapy session"
                     fill
-                    className="object-cover object-[center_20%]"
+                    className="object-cover object-center"
                     sizes="(min-width: 768px) 30vw, 90vw"
                   />
                 )}

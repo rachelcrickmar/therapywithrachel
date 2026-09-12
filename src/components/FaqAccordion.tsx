@@ -40,22 +40,33 @@ export function FaqAccordion({
                 {item.question}
               </span>
               <span
-                className="mt-1 shrink-0 text-lg text-sage"
+                className={`mt-1 shrink-0 text-lg text-sage transition-transform duration-300 ${
+                  open ? "rotate-45" : ""
+                }`}
                 aria-hidden
               >
-                {open ? "−" : "+"}
+                +
               </span>
             </button>
             <div
               id={panelId}
               role="region"
               aria-labelledby={buttonId}
-              hidden={!open}
-              className="pb-5"
+              className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+              }`}
             >
-              <p className="max-w-2xl text-base leading-relaxed text-ink-muted">
-                {item.answer}
-              </p>
+              <div className="overflow-hidden">
+                <p
+                  className={`max-w-2xl pb-5 text-base leading-relaxed text-ink-muted transition-all duration-500 ${
+                    open
+                      ? "translate-y-0 opacity-100 delay-75"
+                      : "-translate-y-1 opacity-0"
+                  }`}
+                >
+                  {item.answer}
+                </p>
+              </div>
             </div>
           </li>
         );
