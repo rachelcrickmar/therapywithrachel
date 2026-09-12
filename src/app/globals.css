@@ -71,26 +71,58 @@ body {
 @keyframes cta-glow-pulse {
   0%,
   100% {
-    background-color: var(--sage-deep);
     box-shadow: 0 0 16px color-mix(in oklab, var(--sage) 30%, transparent);
   }
   50% {
-    background-color: color-mix(in oklab, var(--sage-deep) 72%, white);
     box-shadow:
       0 0 26px color-mix(in oklab, var(--sage) 50%, transparent),
       0 0 40px color-mix(in oklab, var(--blush) 22%, transparent);
   }
 }
 
+@keyframes cta-fill-pulse {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .btn-cta-attention {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--sage-deep);
   animation: cta-glow-pulse 2.6s ease-in-out infinite;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.btn-cta-attention::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: color-mix(in oklab, white 26%, transparent);
+  opacity: 0;
+  animation: cta-fill-pulse 2.6s ease-in-out infinite;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .btn-cta-attention:hover {
   animation: none;
   background-color: var(--ink);
   box-shadow: none;
+}
+
+.btn-cta-attention:hover::before {
+  animation: none;
+  opacity: 0;
 }
 
 .paper-grain {
@@ -133,7 +165,8 @@ body {
   }
 
   .animate-fade-up,
-  .btn-cta-attention {
+  .btn-cta-attention,
+  .btn-cta-attention::before {
     animation: none !important;
   }
 }
