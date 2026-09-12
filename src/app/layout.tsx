@@ -3,6 +3,7 @@ import { Newsreader, Plus_Jakarta_Sans } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { JsonLd } from "@/components/JsonLd";
+import { getSiteSettings } from "@/lib/get-content";
 import { getSiteUrl, siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -18,23 +19,33 @@ const plusJakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(getSiteUrl()),
-  title: {
-    default: `${siteConfig.name} | ${siteConfig.therapistName}, ${siteConfig.credentials}`,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    siteName: siteConfig.name,
-    title: siteConfig.name,
-    description: siteConfig.description,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  const title =
+    settings.seoTitle ||
+    `${settings.practiceName} | ${settings.therapistName}, ${settings.credentials}`;
+  const description = settings.seoDescription || siteConfig.description;
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+  return {
+    metadataBase: new URL(getSiteUrl()),
+    title: {
+      default: title,
+      template: `%s | ${settings.practiceName}`,
+    },
+    description,
+    openGraph: {
+      type: "website",
+      locale: "en_US",
+      siteName: settings.practiceName,
+      title: settings.practiceName,
+      description,
+    },
+  };
+}
+
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const settings = await getSiteSettings();
+
   return (
     <html
       lang="en"
@@ -42,9 +53,21 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
         <JsonLd />
-        <Header />
+        <Header
+          practiceName={settings.practiceName}
+          navLinks={settings.navLinks}
+          contactButtonLabel={settings.contactButtonLabel}
+          contactButtonHref={settings.contactButtonHref}
+        />
         <main className="flex-1">{children}</main>
-        <Footer />
+        <Footer
+          practiceName={settings.practiceName}
+          legalName={settings.legalName}
+          license={settings.license}
+          footerTagline={settings.footerTagline}
+          footerLinks={settings.footerLinks}
+          crisisNote={settings.crisisNote}
+        />
       </body>
     </html>
   );

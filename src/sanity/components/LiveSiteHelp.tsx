@@ -50,7 +50,8 @@ export function LiveSiteHelp() {
           contact” button block with the + menu
         </li>
         <li>
-          <strong>Site settings</strong> — practice name, location, Thrizer link
+          <strong>Site settings</strong> — navbar titles, footer text &amp;
+          links, practice name, Thrizer link
         </li>
       </ol>
     </div>

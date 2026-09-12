@@ -1,16 +1,28 @@
+"use client";
+
+import { Gradient } from "modgrad";
+
 /**
- * Soft ambient hero background — slow color drift only (no pointer tracking).
+ * Subtle animated mesh gradient for the hero.
+ * Adapted from https://github.com/M4cs/modgrad (MIT) with brand colors.
  */
 export function HeroAtmosphere() {
   return (
-    <div className="hero-atmosphere pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      <div className="paper-grain absolute inset-0 z-[1]" />
-      <div className="hero-orb-layer absolute inset-[-20%]">
-        <div className="hero-orb hero-orb-a" />
-        <div className="hero-orb hero-orb-b" />
-        <div className="hero-orb hero-orb-c" />
-        <div className="hero-orb hero-orb-d" />
-      </div>
-    </div>
+    <Gradient
+      theme="light"
+      background="#faf9f7"
+      colors={[
+        { color: "#d7e8df", x: 12, y: 8, size: 78 },
+        { color: "#f3d0db", x: 88, y: 14, size: 72 },
+        { color: "#b8d4c4", x: 62, y: 82, size: 70 },
+        { color: "#e8c4d0", x: 28, y: 55, size: 55 },
+      ]}
+      animate={{ speed: 0.45 }}
+      grain={0.07}
+      blur={28}
+      seed={7}
+      className="absolute inset-0"
+      style={{ pointerEvents: "none" }}
+    />
   );
 }

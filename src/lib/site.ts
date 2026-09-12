@@ -13,6 +13,11 @@ export const siteConfig = {
   nearby: ["Raleigh, NC", "Wake Forest, NC", "Youngsville, NC"],
 } as const;
 
+export type SiteLink = {
+  label: string;
+  href: string;
+};
+
 export function getSiteUrl() {
   return (
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||

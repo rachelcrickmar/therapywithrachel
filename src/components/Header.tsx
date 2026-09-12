@@ -3,16 +3,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { siteConfig } from "@/lib/site";
+import type { SiteLink } from "@/lib/site";
 
-const links = [
-  { href: "/about", label: "About" },
-  { href: "/rates", label: "Rates & insurance" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/blog", label: "Blog" },
-];
+type HeaderProps = {
+  practiceName: string;
+  navLinks: SiteLink[];
+  contactButtonLabel: string;
+  contactButtonHref: string;
+};
 
-export function Header() {
+export function Header({
+  practiceName,
+  navLinks,
+  contactButtonLabel,
+  contactButtonHref,
+}: HeaderProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -27,13 +32,13 @@ export function Header() {
           href="/"
           className="font-serif text-xl tracking-tight text-ink transition hover:text-sage-deep md:text-2xl"
         >
-          {siteConfig.name}
+          {practiceName}
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
-          {links.map((link) => (
+          {navLinks.map((link) => (
             <Link
-              key={link.href}
+              key={`${link.href}-${link.label}`}
               href={link.href}
               className={`text-sm tracking-wide transition ${
                 pathname === link.href
@@ -45,10 +50,10 @@ export function Header() {
             </Link>
           ))}
           <Link
-            href="/contact"
+            href={contactButtonHref}
             className="btn-cta-attention rounded-md bg-sage-deep px-4 py-2 text-sm font-medium text-paper transition hover:bg-ink"
           >
-            Get in touch
+            {contactButtonLabel}
           </Link>
         </nav>
 
@@ -70,8 +75,8 @@ export function Header() {
           aria-label="Mobile"
         >
           <ul className="flex flex-col gap-3">
-            {links.map((link) => (
-              <li key={link.href}>
+            {navLinks.map((link) => (
+              <li key={`${link.href}-${link.label}`}>
                 <Link
                   href={link.href}
                   className="block py-1 text-ink-muted"
@@ -83,11 +88,11 @@ export function Header() {
             ))}
             <li>
               <Link
-                href="/contact"
+                href={contactButtonHref}
                 className="btn-cta-attention mt-2 inline-flex rounded-md bg-sage-deep px-4 py-2 text-sm font-medium text-paper"
                 onClick={() => setOpen(false)}
               >
-                Get in touch
+                {contactButtonLabel}
               </Link>
             </li>
           </ul>

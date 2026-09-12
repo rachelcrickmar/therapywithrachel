@@ -12,7 +12,7 @@ import {
   type FaqItem,
   type Service,
 } from "@/lib/content";
-import { siteConfig } from "@/lib/site";
+import { siteConfig, type SiteLink } from "@/lib/site";
 import { sanityFetch } from "@/sanity/lib/client";
 import {
   aboutPageQuery,
@@ -34,16 +34,97 @@ export async function getServices(): Promise<Service[]> {
   return defaultServices;
 }
 
-export async function getSiteSettings() {
-  return (
+export type { SiteLink } from "@/lib/site";
+
+export type SiteChrome = {
+  practiceName: string;
+  legalName: string;
+  therapistName: string;
+  credentials: string;
+  license: string;
+  location: string;
+  navLinks: SiteLink[];
+  contactButtonLabel: string;
+  contactButtonHref: string;
+  footerTagline: string;
+  footerLinks: SiteLink[];
+  crisisNote: string;
+  thrizerWidgetUrl?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+};
+
+const defaultNavLinks: SiteLink[] = [
+  { label: "About", href: "/about" },
+  { label: "Rates & insurance", href: "/rates" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Blog", href: "/blog" },
+];
+
+const defaultFooterLinks: SiteLink[] = [
+  { label: "About", href: "/about" },
+  { label: "Rates", href: "/rates" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
+  { label: "Privacy", href: "/privacy" },
+];
+
+function normalizeLinks(
+  links: { label?: string; href?: string }[] | null | undefined,
+  fallback: SiteLink[],
+): SiteLink[] {
+  const cleaned =
+    links
+      ?.map((link) => ({
+        label: link.label?.trim() || "",
+        href: link.href?.trim() || "",
+      }))
+      .filter((link) => link.label && link.href) || [];
+  return cleaned.length ? cleaned : fallback;
+}
+
+export async function getSiteSettings(): Promise<SiteChrome> {
+  const page =
     (await sanityFetch<{
       practiceName?: string;
+      legalName?: string;
+      therapistName?: string;
+      credentials?: string;
+      license?: string;
       location?: string;
+      navLinks?: { label?: string; href?: string }[];
+      contactButtonLabel?: string;
+      contactButtonHref?: string;
+      footerTagline?: string;
+      footerLinks?: { label?: string; href?: string }[];
+      crisisNote?: string;
       thrizerWidgetUrl?: string;
       seoTitle?: string;
       seoDescription?: string;
-    }>({ query: siteSettingsQuery, tags: ["siteSettings"] })) || {}
-  );
+    }>({ query: siteSettingsQuery, tags: ["siteSettings"] })) || {};
+
+  return {
+    practiceName: page.practiceName || siteConfig.name,
+    legalName: page.legalName || siteConfig.legalName,
+    therapistName: page.therapistName || siteConfig.therapistName,
+    credentials: page.credentials || siteConfig.credentials,
+    license: page.license || siteConfig.license,
+    location: page.location || siteConfig.location,
+    navLinks: normalizeLinks(page.navLinks, defaultNavLinks),
+    contactButtonLabel: page.contactButtonLabel || "Get in touch",
+    contactButtonHref: page.contactButtonHref || "/contact",
+    footerTagline:
+      page.footerTagline ||
+      `${siteConfig.legalName} · ${siteConfig.therapistName}, ${siteConfig.credentials}\n${siteConfig.location} · In-person and online across North Carolina`,
+    footerLinks: normalizeLinks(page.footerLinks, defaultFooterLinks),
+    crisisNote:
+      page.crisisNote ||
+      "This website is not for emergencies. If you are in crisis, call or text 988 (Suicide & Crisis Lifeline), or call 911.",
+    thrizerWidgetUrl: page.thrizerWidgetUrl,
+    seoTitle: page.seoTitle,
+    seoDescription: page.seoDescription,
+  };
 }
 
 export async function getHomePage() {

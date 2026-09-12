@@ -68,129 +68,6 @@ body {
     linear-gradient(180deg, var(--mist) 0%, var(--paper) 48%, var(--stone) 100%);
 }
 
-.hero-atmosphere {
-  background:
-    radial-gradient(
-      70% 55% at 18% 12%,
-      color-mix(in oklab, var(--mist-deep) 90%, white),
-      transparent 62%
-    ),
-    radial-gradient(
-      65% 50% at 86% 18%,
-      color-mix(in oklab, var(--blush-soft) 88%, white),
-      transparent 58%
-    ),
-    radial-gradient(
-      55% 45% at 58% 78%,
-      color-mix(in oklab, var(--sage-soft) 48%, white),
-      transparent 55%
-    ),
-    linear-gradient(180deg, var(--mist) 0%, var(--paper) 48%, var(--stone) 100%);
-  background-size: 140% 140%, 150% 150%, 160% 160%, 100% 100%;
-  background-position: 0% 20%, 100% 0%, 50% 100%, 0 0;
-  animation: hero-wash 18s ease-in-out infinite;
-}
-
-.hero-orb-layer {
-  will-change: transform;
-}
-
-.hero-orb {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(36px);
-  will-change: transform, opacity;
-  mix-blend-mode: multiply;
-}
-
-.hero-orb-a {
-  top: 0%;
-  right: 5%;
-  height: min(70vw, 580px);
-  width: min(70vw, 580px);
-  background: color-mix(in oklab, var(--blush) 65%, transparent);
-  animation: hero-orb-drift-a 12s ease-in-out infinite;
-}
-
-.hero-orb-b {
-  bottom: 5%;
-  left: 0%;
-  height: min(62vw, 500px);
-  width: min(62vw, 500px);
-  background: color-mix(in oklab, var(--sage) 45%, transparent);
-  animation: hero-orb-drift-b 15s ease-in-out infinite;
-  animation-delay: -3s;
-}
-
-.hero-orb-c {
-  top: 28%;
-  left: 32%;
-  height: min(42vw, 340px);
-  width: min(42vw, 340px);
-  background: color-mix(in oklab, var(--blush-deep) 40%, transparent);
-  animation: hero-orb-drift-c 16s ease-in-out infinite;
-  animation-delay: -7s;
-}
-
-.hero-orb-d {
-  top: 12%;
-  left: 12%;
-  height: min(36vw, 280px);
-  width: min(36vw, 280px);
-  background: color-mix(in oklab, var(--mist-deep) 85%, transparent);
-  animation: hero-orb-drift-a 19s ease-in-out infinite reverse;
-  animation-delay: -1s;
-}
-
-@keyframes hero-wash {
-  0%,
-  100% {
-    background-position: 0% 20%, 100% 0%, 50% 100%, 0 0;
-  }
-  33% {
-    background-position: 35% 5%, 70% 30%, 20% 70%, 0 0;
-  }
-  66% {
-    background-position: 15% 40%, 85% 15%, 65% 45%, 0 0;
-  }
-}
-
-@keyframes hero-orb-drift-a {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: translate3d(-12%, 10%, 0) scale(1.18);
-    opacity: 1;
-  }
-}
-
-@keyframes hero-orb-drift-b {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.65;
-  }
-  50% {
-    transform: translate3d(14%, -9%, 0) scale(1.15);
-    opacity: 0.95;
-  }
-}
-
-@keyframes hero-orb-drift-c {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.55;
-  }
-  50% {
-    transform: translate3d(10%, 12%, 0) scale(1.22);
-    opacity: 0.9;
-  }
-}
-
 @keyframes cta-glow-pulse {
   0%,
   100% {
@@ -246,22 +123,8 @@ body {
   }
 }
 
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(1.5%, -1%, 0) scale(1.03);
-  }
-}
-
 .animate-fade-up {
   animation: fade-up 0.8s ease-out both;
-}
-
-.animate-drift {
-  animation: drift 18s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -270,12 +133,6 @@ body {
   }
 
   .animate-fade-up,
-  .animate-drift,
-  .hero-atmosphere,
-  .hero-orb-a,
-  .hero-orb-b,
-  .hero-orb-c,
-  .hero-orb-d,
   .btn-cta-attention {
     animation: none !important;
   }

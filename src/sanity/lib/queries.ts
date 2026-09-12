@@ -164,8 +164,18 @@ export const privacyPageQuery = groq`
 export const siteSettingsQuery = groq`
   *[_id == "siteSettings"][0] {
     practiceName,
+    legalName,
+    therapistName,
+    credentials,
+    license,
     email,
     location,
+    navLinks[] { label, href },
+    contactButtonLabel,
+    contactButtonHref,
+    footerTagline,
+    footerLinks[] { label, href },
+    crisisNote,
     thrizerWidgetUrl,
     seoTitle,
     seoDescription
