@@ -10,17 +10,17 @@ export function HeroAtmosphere() {
   return (
     <Gradient
       theme="light"
-      background="#ffffff"
+      background="#faf9f7"
       colors={[
-        { color: "#eef6f1", x: 12, y: 8, size: 78 },
-        { color: "#faf0f3", x: 88, y: 14, size: 72 },
-        { color: "#e8f2ec", x: 62, y: 82, size: 70 },
-        { color: "#f7eef1", x: 28, y: 55, size: 55 },
-        { color: "#ffffff", x: 48, y: 42, size: 90 },
+        { color: "#cfe3d8", x: 12, y: 8, size: 78 },
+        { color: "#f0d6e0", x: 88, y: 14, size: 72 },
+        { color: "#b5d0c0", x: 62, y: 82, size: 70 },
+        { color: "#e5c0cd", x: 28, y: 55, size: 58 },
+        { color: "#e8f0eb", x: 48, y: 40, size: 85 },
       ]}
       animate={{ speed: 0.9 }}
-      grain={0.05}
-      blur={32}
+      grain={0.06}
+      blur={30}
       seed={7}
       className="absolute inset-0"
       style={{ pointerEvents: "none" }}
