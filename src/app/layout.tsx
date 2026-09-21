@@ -3,6 +3,7 @@ import { Newsreader, Plus_Jakarta_Sans } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { JsonLd } from "@/components/JsonLd";
+import { SiteAnalytics } from "@/components/SiteAnalytics";
 import { getSiteSettings } from "@/lib/get-content";
 import { getSiteUrl, siteConfig } from "@/lib/site";
 import "./globals.css";
@@ -57,6 +58,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
         <JsonLd />
+        <SiteAnalytics />
         <Header
           practiceName={settings.practiceName}
           navLinks={settings.navLinks}

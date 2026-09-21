@@ -2,9 +2,11 @@
 
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
+import { visionTool } from "@sanity/vision";
 import { dataset, projectId } from "./src/sanity/env";
 import { schemaTypes } from "./src/sanity/schemaTypes";
 import { structure } from "./src/sanity/structure";
+import { analyticsTool } from "./src/sanity/tools/analyticsTool";
 
 const configuredProjectId = projectId || "placeholder";
 
@@ -53,7 +55,9 @@ export default defineConfig({
       title: "Editor",
       structure,
     }),
+    visionTool({ defaultApiVersion: "2025-01-01" }),
   ],
+  tools: (prev) => [...prev, analyticsTool()],
   document: {
     newDocumentOptions: (prev, { creationContext }) => {
       if (creationContext.type === "global") {

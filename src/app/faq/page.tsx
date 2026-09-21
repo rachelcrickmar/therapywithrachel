@@ -40,7 +40,9 @@ export default async function FaqPage() {
             <p className="text-base text-ink-muted">
               Still have a question? Reach out for a free consultation.
             </p>
-            <ButtonLink href="/contact">Get in touch</ButtonLink>
+            <ButtonLink href="/contact" trackLocation="faq_cta">
+              Get in touch
+            </ButtonLink>
           </div>
         </FadeIn>
       </div>

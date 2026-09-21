@@ -65,7 +65,9 @@ export default async function HomePage() {
               {page.subhead}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <ButtonLink href="/contact">{page.primaryButtonLabel}</ButtonLink>
+              <ButtonLink href="/contact" trackLocation="home_hero">
+                {page.primaryButtonLabel}
+              </ButtonLink>
               <ButtonLink href="/about" variant="secondary">
                 {page.secondaryButtonLabel}
               </ButtonLink>
@@ -279,7 +281,7 @@ export default async function HomePage() {
             </div>
           </FadeIn>
           <FadeIn delayMs={100}>
-            <ContactForm />
+            <ContactForm trackLocation="home_cta" />
           </FadeIn>
         </div>
       </section>

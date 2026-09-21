@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import {
   PortableText,
   type PortableTextComponents,
   type PortableTextBlock,
 } from "@portabletext/react";
+import { trackContactClick } from "@/lib/analytics/client";
 import { SanityImage } from "./SanityImage";
 
 const components: PortableTextComponents = {
@@ -65,6 +68,8 @@ const components: PortableTextComponents = {
       const href = value?.buttonLink || "/contact";
       const isInternal = href.startsWith("/");
       const label = value?.buttonLabel || "Get in touch";
+      const isContact =
+        href === "/contact" || href.startsWith("/contact?");
 
       return (
         <aside className="my-12 rounded-lg border border-line bg-mist/50 px-6 py-8 md:px-8">
@@ -83,6 +88,9 @@ const components: PortableTextComponents = {
               <Link
                 href={href}
                 className="inline-flex rounded-md bg-sage-deep px-5 py-3 text-sm font-medium text-paper transition hover:bg-ink"
+                onClick={() => {
+                  if (isContact) trackContactClick("blog_cta");
+                }}
               >
                 {label}
               </Link>
@@ -91,6 +99,9 @@ const components: PortableTextComponents = {
                 href={href}
                 className="inline-flex rounded-md bg-sage-deep px-5 py-3 text-sm font-medium text-paper transition hover:bg-ink"
                 rel="noopener noreferrer"
+                onClick={() => {
+                  if (isContact) trackContactClick("blog_cta");
+                }}
               >
                 {label}
               </a>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { BrandMark } from "@/components/BrandMark";
+import { trackContactClick } from "@/lib/analytics/client";
 import type { SiteLink } from "@/lib/site";
 
 type HeaderProps = {
@@ -54,6 +55,14 @@ export function Header({
           <Link
             href={contactButtonHref}
             className="btn-cta-attention rounded-md bg-sage-deep px-4 py-2 text-sm font-medium text-paper transition hover:bg-ink"
+            onClick={() => {
+              if (
+                contactButtonHref === "/contact" ||
+                contactButtonHref.startsWith("/contact?")
+              ) {
+                trackContactClick("nav_desktop");
+              }
+            }}
           >
             {contactButtonLabel}
           </Link>
@@ -92,7 +101,15 @@ export function Header({
               <Link
                 href={contactButtonHref}
                 className="btn-cta-attention mt-2 inline-flex rounded-md bg-sage-deep px-4 py-2 text-sm font-medium text-paper"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setOpen(false);
+                  if (
+                    contactButtonHref === "/contact" ||
+                    contactButtonHref.startsWith("/contact?")
+                  ) {
+                    trackContactClick("nav_mobile");
+                  }
+                }}
               >
                 {contactButtonLabel}
               </Link>

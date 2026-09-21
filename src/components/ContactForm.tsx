@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackContactClick } from "@/lib/analytics/client";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -8,12 +9,15 @@ type ContactFormProps = {
   compact?: boolean;
   heading?: string;
   intro?: string;
+  /** Analytics location for successful consult form submits */
+  trackLocation?: string;
 };
 
 export function ContactForm({
   compact = false,
   heading = "Get in touch",
   intro = "Request a free 15-minute consultation. Please do not include clinical details or sensitive health information — this form is only for scheduling.",
+  trackLocation = "contact_form",
 }: ContactFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
@@ -46,6 +50,7 @@ export function ContactForm({
         throw new Error(data.error || "Something went wrong. Please try again.");
       }
 
+      trackContactClick(trackLocation);
       setStatus("success");
       form.reset();
     } catch (err) {

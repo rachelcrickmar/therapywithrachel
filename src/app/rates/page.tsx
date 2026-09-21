@@ -98,7 +98,9 @@ export default async function RatesPage() {
                 ))}
               </ul>
               <div className="mt-8">
-                <ButtonLink href="/contact">{page.insuranceButtonLabel}</ButtonLink>
+                <ButtonLink href="/contact" trackLocation="rates_insurance">
+                  {page.insuranceButtonLabel}
+                </ButtonLink>
               </div>
             </div>
           </FadeIn>

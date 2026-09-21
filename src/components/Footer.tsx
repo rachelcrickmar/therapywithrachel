@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BrandMark } from "@/components/BrandMark";
+import { trackContactClick } from "@/lib/analytics/client";
 import type { SiteLink } from "@/lib/site";
 
 type FooterProps = {
@@ -60,6 +61,11 @@ export function Footer({
                 key={`${link.href}-${link.label}`}
                 href={link.href}
                 className="hover:text-ink"
+                onClick={() => {
+                  if (link.href === "/contact" || link.href.startsWith("/contact?")) {
+                    trackContactClick("footer");
+                  }
+                }}
               >
                 {link.label}
               </Link>

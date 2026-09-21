@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { ButtonLink } from "@/components/ButtonLink";
 import { PortableBody } from "@/components/PortableBody";
 import { getPrivacyPage } from "@/lib/get-content";
 import { siteConfig } from "@/lib/site";
@@ -64,9 +64,14 @@ export default async function PrivacyPage() {
       {!page.body ? (
         <p className="mt-6 text-base leading-relaxed text-ink-muted">
           Questions about this site?{" "}
-          <Link href="/contact" className="text-sage-deep hover:underline">
+          <ButtonLink
+            href="/contact"
+            variant="ghost"
+            trackLocation="privacy_cta"
+            className="px-0 py-0"
+          >
             Get in touch
-          </Link>
+          </ButtonLink>
           .
         </p>
       ) : null}

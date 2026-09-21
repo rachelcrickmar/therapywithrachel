@@ -86,7 +86,9 @@ export default async function AboutPage() {
             <p className="text-sm leading-relaxed text-ink-muted">
               {page.availability}
             </p>
-            <ButtonLink href="/contact">{page.sidebarButtonLabel}</ButtonLink>
+            <ButtonLink href="/contact" trackLocation="about_sidebar">
+              {page.sidebarButtonLabel}
+            </ButtonLink>
           </aside>
         </FadeIn>
       </section>
