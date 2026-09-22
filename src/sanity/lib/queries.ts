@@ -176,6 +176,12 @@ export const siteSettingsQuery = groq`
     footerTagline,
     footerLinks[] { label, href },
     crisisNote,
+    psychologyTodayBadgeEnabled,
+    psychologyTodayPlacements,
+    psychologyTodayEmbed,
+    psychologyTodayProfileId,
+    psychologyTodayBadge,
+    psychologyTodayCode,
     thrizerWidgetUrl,
     seoTitle,
     seoDescription

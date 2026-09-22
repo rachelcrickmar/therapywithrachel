@@ -13,6 +13,10 @@ import {
   type Service,
 } from "@/lib/content";
 import { siteConfig, type SiteLink } from "@/lib/site";
+import {
+  normalizePsychologyTodayBadge,
+  type PsychologyTodayBadgeConfig,
+} from "@/lib/psychology-today";
 import { sanityFetch } from "@/sanity/lib/client";
 import {
   aboutPageQuery,
@@ -49,6 +53,7 @@ export type SiteChrome = {
   footerTagline: string;
   footerLinks: SiteLink[];
   crisisNote: string;
+  psychologyToday: PsychologyTodayBadgeConfig;
   thrizerWidgetUrl?: string;
   seoTitle?: string;
   seoDescription?: string;
@@ -99,6 +104,12 @@ export async function getSiteSettings(): Promise<SiteChrome> {
       footerTagline?: string;
       footerLinks?: { label?: string; href?: string }[];
       crisisNote?: string;
+      psychologyTodayBadgeEnabled?: boolean;
+      psychologyTodayPlacements?: string[];
+      psychologyTodayEmbed?: string;
+      psychologyTodayProfileId?: string;
+      psychologyTodayBadge?: string;
+      psychologyTodayCode?: string;
       thrizerWidgetUrl?: string;
       seoTitle?: string;
       seoDescription?: string;
@@ -121,6 +132,14 @@ export async function getSiteSettings(): Promise<SiteChrome> {
     crisisNote:
       page.crisisNote ||
       "This website is not for emergencies. If you are in crisis, call or text 988 (Suicide & Crisis Lifeline), or call 911.",
+    psychologyToday: normalizePsychologyTodayBadge({
+      enabled: page.psychologyTodayBadgeEnabled ?? true,
+      placements: page.psychologyTodayPlacements,
+      embed: page.psychologyTodayEmbed,
+      profileId: page.psychologyTodayProfileId,
+      badge: page.psychologyTodayBadge,
+      code: page.psychologyTodayCode,
+    }),
     thrizerWidgetUrl: page.thrizerWidgetUrl,
     seoTitle: page.seoTitle,
     seoDescription: page.seoDescription,

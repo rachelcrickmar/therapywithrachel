@@ -73,6 +73,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           footerTagline={settings.footerTagline}
           footerLinks={settings.footerLinks}
           crisisNote={settings.crisisNote}
+          psychologyToday={settings.psychologyToday}
         />
       </body>
     </html>

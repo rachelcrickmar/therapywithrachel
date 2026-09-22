@@ -25,7 +25,8 @@ export const siteSettings = defineType({
     { name: "brand", title: "1. Practice name & details", default: true },
     { name: "nav", title: "2. Navbar" },
     { name: "footer", title: "3. Footer" },
-    { name: "seo", title: "4. Search & Thrizer" },
+    { name: "badges", title: "4. Badges" },
+    { name: "seo", title: "5. Search & Thrizer" },
   ],
   fields: [
     defineField({
@@ -183,6 +184,111 @@ export const siteSettings = defineType({
       group: "footer",
       initialValue:
         "This website is not for emergencies. If you are in crisis, call or text 988 (Suicide & Crisis Lifeline), or call 911.",
+    }),
+
+    defineField({
+      name: "psychologyTodayBadgeEnabled",
+      title: "Show Psychology Today verified badge",
+      type: "boolean",
+      group: "badges",
+      initialValue: true,
+      description:
+        "Official verified seal from Psychology Today. Turn on, then choose where it appears.",
+    }),
+    defineField({
+      name: "psychologyTodayPlacements",
+      title: "Where to show the badge",
+      type: "array",
+      group: "badges",
+      of: [{ type: "string" }],
+      options: {
+        list: [
+          { title: "Footer (all pages)", value: "footer" },
+          { title: "Home — under the Get in touch buttons", value: "homeHero" },
+          { title: "About — sidebar", value: "about" },
+        ],
+        layout: "grid",
+      },
+      initialValue: ["footer"],
+      hidden: ({ parent }) => !parent?.psychologyTodayBadgeEnabled,
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const parent = context.parent as
+            | { psychologyTodayBadgeEnabled?: boolean }
+            | undefined;
+          if (!parent?.psychologyTodayBadgeEnabled) return true;
+          if (!value || value.length === 0) {
+            return "Pick at least one place to show the badge.";
+          }
+          return true;
+        }),
+    }),
+    defineField({
+      name: "psychologyTodayEmbed",
+      title: "Psychology Today embed code",
+      type: "text",
+      rows: 6,
+      group: "badges",
+      initialValue: `<!-- Professional verification provided by Psychology Today -->
+<a href="https://www.psychologytoday.com/profile/1608263" class="sx-verified-seal"></a>
+<script type="text/javascript" src="https://member.psychologytoday.com/verified-seal.js" data-badge="13" data-id="1608263" data-code="aHR0cHM6Ly93d3cucHN5Y2hvbG9neXRvZGF5LmNvbS9hcGkvdmVyaWZpZWQtc2VhbC9zZWFscy8xMy9wcm9maWxlLzE2MDgyNjM/Y2FsbGJhY2s9c3hjYWxsYmFjaw=="></script>
+<!-- End Verification -->`,
+      description:
+        "Paste the full embed from Psychology Today here if they give you a different badge style or a new code. The site reads profile ID, badge number, and verification code from this snippet.",
+      hidden: ({ parent }) => !parent?.psychologyTodayBadgeEnabled,
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const parent = context.parent as
+            | {
+                psychologyTodayBadgeEnabled?: boolean;
+                psychologyTodayProfileId?: string;
+                psychologyTodayCode?: string;
+              }
+            | undefined;
+          if (!parent?.psychologyTodayBadgeEnabled) return true;
+          if (parent.psychologyTodayProfileId?.trim() && parent.psychologyTodayCode?.trim()) {
+            return true;
+          }
+          if (!value?.trim()) {
+            return "Paste your Psychology Today embed, or fill in the advanced fields below.";
+          }
+          const hasId =
+            /data-id\s*=\s*["']\d+["']/i.test(value) ||
+            /psychologytoday\.com\/(?:us\/)?profile\/\d+/i.test(value);
+          const hasCode = /data-code\s*=\s*["'][^"']+["']/i.test(value);
+          if (!hasId || !hasCode) {
+            return "That doesn’t look like a Psychology Today verified-seal embed. Copy the full snippet they provide.";
+          }
+          return true;
+        }),
+    }),
+    defineField({
+      name: "psychologyTodayProfileId",
+      title: "Profile ID (advanced)",
+      type: "string",
+      group: "badges",
+      description:
+        "Optional override. Usually left blank — taken from the embed above.",
+      hidden: ({ parent }) => !parent?.psychologyTodayBadgeEnabled,
+    }),
+    defineField({
+      name: "psychologyTodayBadge",
+      title: "Badge style number (advanced)",
+      type: "string",
+      group: "badges",
+      description:
+        "Optional override for data-badge. Different PT badge designs use different numbers.",
+      hidden: ({ parent }) => !parent?.psychologyTodayBadgeEnabled,
+    }),
+    defineField({
+      name: "psychologyTodayCode",
+      title: "Verification code (advanced)",
+      type: "text",
+      rows: 2,
+      group: "badges",
+      description:
+        "Optional override for data-code. Prefer pasting a new full embed above when Psychology Today sends an update.",
+      hidden: ({ parent }) => !parent?.psychologyTodayBadgeEnabled,
     }),
 
     defineField({

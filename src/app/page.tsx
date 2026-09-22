@@ -11,9 +11,16 @@ import {
   SelfImprovementIcon,
   VolunteerIcon,
 } from "@/components/MaterialIcons";
+import { PsychologyTodayBadge } from "@/components/PsychologyTodayBadge";
 import { hasSanityImage, SanityImage } from "@/components/SanityImage";
 import { ServicesBlock } from "@/components/ServicesBlock";
-import { getFaqPage, getHomePage, getServices } from "@/lib/get-content";
+import {
+  getFaqPage,
+  getHomePage,
+  getServices,
+  getSiteSettings,
+} from "@/lib/get-content";
+import { showPsychologyTodayBadge } from "@/lib/psychology-today";
 
 export const revalidate = 30;
 
@@ -37,10 +44,11 @@ const focusPoints = [
 ];
 
 export default async function HomePage() {
-  const [services, page, faq] = await Promise.all([
+  const [services, page, faq, settings] = await Promise.all([
     getServices(),
     getHomePage(),
     getFaqPage(),
+    getSiteSettings(),
   ]);
   const showHeroPhoto = hasSanityImage(page.heroImage as never);
   const consultPhoto = hasSanityImage(page.consultImage as never)
@@ -48,6 +56,10 @@ export default async function HomePage() {
     : page.heroImage;
   const showConsultPhoto = hasSanityImage(consultPhoto as never);
   const homeFaqs = faq.homeFaqs;
+  const showPtBadge = showPsychologyTodayBadge(
+    settings.psychologyToday,
+    "homeHero",
+  );
 
   return (
     <>
@@ -72,6 +84,14 @@ export default async function HomePage() {
                 {page.secondaryButtonLabel}
               </ButtonLink>
             </div>
+            {showPtBadge ? (
+              <PsychologyTodayBadge
+                profileId={settings.psychologyToday.profileId}
+                badge={settings.psychologyToday.badge}
+                code={settings.psychologyToday.code}
+                className="mt-6"
+              />
+            ) : null}
             {page.consultNote ? (
               <p className="mt-6 text-sm text-ink-muted">{page.consultNote}</p>
             ) : null}

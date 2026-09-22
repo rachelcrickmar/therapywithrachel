@@ -50,8 +50,8 @@ export function LiveSiteHelp() {
           contact” button block with the + menu
         </li>
         <li>
-          <strong>Site settings</strong> — navbar titles, footer text &amp;
-          links, practice name, Thrizer link
+          <strong>Site settings</strong> — navbar, footer, Psychology Today
+          badge (Badges tab), Thrizer link, practice name
         </li>
       </ol>
     </div>

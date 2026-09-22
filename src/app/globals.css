@@ -230,6 +230,11 @@ body {
   animation: fade-up 0.8s ease-out both;
 }
 
+.psychology-today-badge .sx-verified-seal {
+  display: inline-block;
+  min-height: 2.5rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

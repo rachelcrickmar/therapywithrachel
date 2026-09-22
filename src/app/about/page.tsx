@@ -4,7 +4,9 @@ import { ButtonLink } from "@/components/ButtonLink";
 import { FadeIn } from "@/components/FadeIn";
 import { hasSanityImage, SanityImage } from "@/components/SanityImage";
 import { ServicesBlock } from "@/components/ServicesBlock";
-import { getAboutPage, getServices } from "@/lib/get-content";
+import { getAboutPage, getServices, getSiteSettings } from "@/lib/get-content";
+import { PsychologyTodayBadge } from "@/components/PsychologyTodayBadge";
+import { showPsychologyTodayBadge } from "@/lib/psychology-today";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -13,8 +15,16 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const [services, page] = await Promise.all([getServices(), getAboutPage()]);
+  const [services, page, settings] = await Promise.all([
+    getServices(),
+    getAboutPage(),
+    getSiteSettings(),
+  ]);
   const showPortrait = hasSanityImage(page.portrait as never);
+  const showPtBadge = showPsychologyTodayBadge(
+    settings.psychologyToday,
+    "about",
+  );
 
   return (
     <>
@@ -89,6 +99,14 @@ export default async function AboutPage() {
             <ButtonLink href="/contact" trackLocation="about_sidebar">
               {page.sidebarButtonLabel}
             </ButtonLink>
+            {showPtBadge ? (
+              <PsychologyTodayBadge
+                profileId={settings.psychologyToday.profileId}
+                badge={settings.psychologyToday.badge}
+                code={settings.psychologyToday.code}
+                className="pt-2"
+              />
+            ) : null}
           </aside>
         </FadeIn>
       </section>
