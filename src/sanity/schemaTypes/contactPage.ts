@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { photoFields } from "./objects/photoFields";
 
 export const contactPage = defineType({
   name: "contactPage",
@@ -44,6 +45,14 @@ export const contactPage = defineType({
       group: "content",
       initialValue: "Wake Forest, NC · In-person and online across North Carolina",
     }),
+    ...photoFields({
+      name: "sidePhoto",
+      title: "Photo beside the form",
+      altName: "sidePhotoAlt",
+      group: "content",
+      description:
+        "Upload here to set/replace this photo. If empty, Home hero is used, then a stock photo.",
+    }),
 
     defineField({
       name: "formHeading",
@@ -60,21 +69,6 @@ export const contactPage = defineType({
       group: "form",
       initialValue:
         "Request a free 15-minute consultation. Please do not include clinical details or sensitive health information — this form is only for scheduling.",
-    }),
-    defineField({
-      name: "sidePhoto",
-      title: "Photo beside the form",
-      type: "image",
-      group: "content",
-      options: { hotspot: true },
-      description:
-        "Optional photo of you. If empty, the site uses your Home page hero photo.",
-    }),
-    defineField({
-      name: "sidePhotoAlt",
-      title: "Side photo description",
-      type: "string",
-      group: "content",
     }),
   ],
   preview: {

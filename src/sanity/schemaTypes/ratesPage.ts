@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { photoFields } from "./objects/photoFields";
 
 export const ratesPage = defineType({
   name: "ratesPage",
@@ -25,20 +26,13 @@ export const ratesPage = defineType({
       rows: 3,
       group: "intro",
     }),
-    defineField({
+    ...photoFields({
       name: "sidePhoto",
-      title: "Photo in the intro section",
-      type: "image",
+      title: "Photo at the top of Rates",
+      altName: "sidePhotoAlt",
       group: "intro",
-      options: { hotspot: true },
       description:
-        "Optional photo of you. If empty, the site uses your Home page hero photo.",
-    }),
-    defineField({
-      name: "sidePhotoAlt",
-      title: "Photo description",
-      type: "string",
-      group: "intro",
+        "Upload here to set/replace this photo. If empty, Home hero is used, then a stock photo.",
     }),
 
     defineField({
@@ -134,6 +128,14 @@ export const ratesPage = defineType({
       type: "text",
       rows: 2,
       group: "thrizer",
+    }),
+    ...photoFields({
+      name: "thrizerImage",
+      title: "Photo beside Thrizer",
+      altName: "thrizerImageAlt",
+      group: "thrizer",
+      description:
+        "Photo next to the benefits checker. Upload to replace the stock image.",
     }),
     defineField({
       name: "thrizerWidgetUrl",

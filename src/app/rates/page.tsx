@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { ButtonLink } from "@/components/ButtonLink";
 import { FadeIn } from "@/components/FadeIn";
-import { hasSanityImage, SanityImage } from "@/components/SanityImage";
+import { PageImage } from "@/components/PageImage";
 import { ThrizerWidget } from "@/components/ThrizerWidget";
 import { getRatesPage } from "@/lib/get-content";
 import { siteConfig } from "@/lib/site";
@@ -14,7 +13,6 @@ export const metadata: Metadata = {
 
 export default async function RatesPage() {
   const page = await getRatesPage();
-  const showPhoto = hasSanityImage(page.sidePhoto as never);
 
   return (
     <>
@@ -34,23 +32,14 @@ export default async function RatesPage() {
           </FadeIn>
           <FadeIn delayMs={80}>
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl md:aspect-[5/6]">
-              {showPhoto ? (
-                <SanityImage
-                  value={page.sidePhoto as never}
-                  alt={page.sidePhotoAlt || siteConfig.therapistName}
-                  className="object-cover object-[center_20%]"
-                  fill
-                  sizes="(min-width: 768px) 35vw, 100vw"
-                />
-              ) : (
-                <Image
-                  src="/images/session-talking.jpg"
-                  alt="Two people talking together in a supportive session"
-                  fill
-                  className="object-cover object-center"
-                  sizes="(min-width: 768px) 35vw, 100vw"
-                />
-              )}
+              <PageImage
+                value={page.sidePhoto}
+                alt={page.sidePhotoAlt || siteConfig.therapistName}
+                fallbackSrc="/images/session-talking.jpg"
+                fallbackAlt="Two people talking together in a supportive session"
+                className="object-cover object-[center_20%]"
+                sizes="(min-width: 768px) 35vw, 100vw"
+              />
             </div>
           </FadeIn>
         </div>
@@ -109,10 +98,10 @@ export default async function RatesPage() {
         <div className="mt-16 grid items-center gap-10 md:grid-cols-[0.9fr_1.1fr]">
           <FadeIn>
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
-              <Image
-                src="/images/session-support.jpg"
-                alt="Hands and conversation during a counseling moment"
-                fill
+              <PageImage
+                value={page.thrizerImage}
+                alt={page.thrizerImageAlt}
+                fallbackSrc="/images/session-support.jpg"
                 className="object-cover object-center"
                 sizes="(min-width: 768px) 35vw, 100vw"
               />

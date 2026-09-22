@@ -51,7 +51,13 @@ export function LiveSiteHelp() {
         </li>
         <li>
           <strong>Site settings</strong> — navbar, footer, Psychology Today
-          badge (Badges tab), Thrizer link, practice name
+          badge (Badges tab — paste the &lt;script&gt; line; arrows in comments
+          are OK), Thrizer link, practice name
+        </li>
+        <li style={{ marginTop: "0.5rem" }}>
+          <strong>Photos</strong> — every page photo has an upload field in that
+          page&apos;s editor (Home, About, Rates, Contact, blog posts). Click the
+          image → Edit, or drop a new file, then Publish.
         </li>
       </ol>
     </div>

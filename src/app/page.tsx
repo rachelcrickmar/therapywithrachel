@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ButtonLink";
 import { ContactForm } from "@/components/ContactForm";
@@ -11,6 +10,7 @@ import {
   SelfImprovementIcon,
   VolunteerIcon,
 } from "@/components/MaterialIcons";
+import { PageImage } from "@/components/PageImage";
 import { PsychologyTodayBadge } from "@/components/PsychologyTodayBadge";
 import { hasSanityImage, SanityImage } from "@/components/SanityImage";
 import { ServicesBlock } from "@/components/ServicesBlock";
@@ -54,7 +54,6 @@ export default async function HomePage() {
   const consultPhoto = hasSanityImage(page.consultImage as never)
     ? page.consultImage
     : page.heroImage;
-  const showConsultPhoto = hasSanityImage(consultPhoto as never);
   const homeFaqs = faq.homeFaqs;
   const showPtBadge = showPsychologyTodayBadge(
     settings.psychologyToday,
@@ -170,10 +169,10 @@ export default async function HomePage() {
             </FadeIn>
             <FadeIn delayMs={100}>
               <div className="relative aspect-[4/5] overflow-hidden rounded-2xl md:aspect-[5/6]">
-                <Image
-                  src="/images/session-conversation.jpg"
-                  alt="Two women talking together in a calm therapy session"
-                  fill
+                <PageImage
+                  value={page.whoImage}
+                  alt={page.whoImageAlt}
+                  fallbackSrc="/images/session-conversation.jpg"
                   className="object-cover object-center"
                   sizes="(min-width: 768px) 40vw, 100vw"
                 />
@@ -194,10 +193,10 @@ export default async function HomePage() {
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 md:grid-cols-2 md:px-8 md:py-28">
           <FadeIn>
             <div className="relative aspect-[16/11] overflow-hidden rounded-2xl">
-              <Image
-                src="/images/session-listening.jpg"
-                alt="Therapist and client talking during a counseling session"
-                fill
+              <PageImage
+                value={page.approachImage}
+                alt={page.approachImageAlt}
+                fallbackSrc="/images/session-listening.jpg"
                 className="object-cover object-center"
                 sizes="(min-width: 768px) 45vw, 100vw"
               />
@@ -275,27 +274,18 @@ export default async function HomePage() {
                 </p>
               </div>
               <div className="relative aspect-[4/5] max-w-md overflow-hidden rounded-2xl">
-                {showConsultPhoto ? (
-                  <SanityImage
-                    value={consultPhoto as never}
-                    alt={
-                      page.consultImageAlt ||
-                      page.heroImageAlt ||
-                      page.heroCaptionName
-                    }
-                    className="object-cover object-[center_20%]"
-                    fill
-                    sizes="(min-width: 768px) 30vw, 90vw"
-                  />
-                ) : (
-                  <Image
-                    src="/images/session-support.jpg"
-                    alt="Supportive conversation during a therapy session"
-                    fill
-                    className="object-cover object-center"
-                    sizes="(min-width: 768px) 30vw, 90vw"
-                  />
-                )}
+                <PageImage
+                  value={consultPhoto}
+                  alt={
+                    page.consultImageAlt ||
+                    page.heroImageAlt ||
+                    page.heroCaptionName
+                  }
+                  fallbackSrc="/images/session-support.jpg"
+                  fallbackAlt="Supportive conversation during a therapy session"
+                  className="object-cover object-[center_20%]"
+                  sizes="(min-width: 768px) 30vw, 90vw"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-sage-deep/20 to-transparent" />
               </div>
             </div>

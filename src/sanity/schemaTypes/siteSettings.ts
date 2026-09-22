@@ -229,12 +229,9 @@ export const siteSettings = defineType({
       type: "text",
       rows: 6,
       group: "badges",
-      initialValue: `<!-- Professional verification provided by Psychology Today -->
-<a href="https://www.psychologytoday.com/profile/1608263" class="sx-verified-seal"></a>
-<script type="text/javascript" src="https://member.psychologytoday.com/verified-seal.js" data-badge="13" data-id="1608263" data-code="aHR0cHM6Ly93d3cucHN5Y2hvbG9neXRvZGF5LmNvbS9hcGkvdmVyaWZpZWQtc2VhbC9zZWFscy8xMy9wcm9maWxlLzE2MDgyNjM/Y2FsbGJhY2s9c3hjYWxsYmFjaw=="></script>
-<!-- End Verification -->`,
+      initialValue: `<script type="text/javascript" src="https://member.psychologytoday.com/verified-seal.js" data-badge="13" data-id="1608263" data-code="aHR0cHM6Ly93d3cucHN5Y2hvbG9neXRvZGF5LmNvbS9hcGkvdmVyaWZpZWQtc2VhbC9zZWFscy8xMy9wcm9maWxlLzE2MDgyNjM/Y2FsbGJhY2s9c3hjYWxsYmFjaw=="></script>`,
       description:
-        "Paste the full embed from Psychology Today here if they give you a different badge style or a new code. The site reads profile ID, badge number, and verification code from this snippet.",
+        "Paste the Psychology Today embed here (the <script …> line is enough). If your editor turns --> into an arrow, that’s fine — we only need data-id, data-badge, and data-code. Publish after saving.",
       hidden: ({ parent }) => !parent?.psychologyTodayBadgeEnabled,
       validation: (rule) =>
         rule.custom((value, context) => {
@@ -246,18 +243,33 @@ export const siteSettings = defineType({
               }
             | undefined;
           if (!parent?.psychologyTodayBadgeEnabled) return true;
-          if (parent.psychologyTodayProfileId?.trim() && parent.psychologyTodayCode?.trim()) {
+          if (
+            parent.psychologyTodayProfileId?.trim() &&
+            parent.psychologyTodayCode?.trim()
+          ) {
             return true;
           }
           if (!value?.trim()) {
             return "Paste your Psychology Today embed, or fill in the advanced fields below.";
           }
+          // Lazy require via dynamic pattern — keep validation in sync with parser
+          const cleaned = value
+            .replace(/→/g, "-->")
+            .replace(/←/g, "<!--")
+            .replace(/<!—/g, "<!--")
+            .replace(/<!–/g, "<!--")
+            .replace(/—>/g, "-->")
+            .replace(/–>/g, "-->")
+            .replace(/[“”]/g, '"')
+            .replace(/[‘’]/g, "'");
           const hasId =
-            /data-id\s*=\s*["']\d+["']/i.test(value) ||
-            /psychologytoday\.com\/(?:us\/)?profile\/\d+/i.test(value);
-          const hasCode = /data-code\s*=\s*["'][^"']+["']/i.test(value);
+            /data-id\s*=\s*["']?\d+/i.test(cleaned) ||
+            /psychologytoday\.com\/(?:us\/)?profile\/\d+/i.test(cleaned);
+          const hasCode = /data-code\s*=\s*["']?[A-Za-z0-9+/=]{20,}/i.test(
+            cleaned,
+          );
           if (!hasId || !hasCode) {
-            return "That doesn’t look like a Psychology Today verified-seal embed. Copy the full snippet they provide.";
+            return "Couldn’t find data-id and data-code. Paste the <script> line from Psychology Today (comments optional).";
           }
           return true;
         }),

@@ -232,7 +232,9 @@ body {
 
 .psychology-today-badge .sx-verified-seal {
   display: inline-block;
-  min-height: 2.5rem;
+  min-width: 5rem;
+  min-height: 5rem;
+  vertical-align: middle;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { photoFields } from "./objects/photoFields";
 
 export const homePage = defineType({
   name: "homePage",
@@ -34,19 +35,13 @@ export const homePage = defineType({
       rows: 3,
       group: "hero",
     }),
-    defineField({
+    ...photoFields({
       name: "heroImage",
-      title: "Hero photo",
-      type: "image",
+      title: "Hero photo (top of home page)",
+      altName: "heroImageAlt",
       group: "hero",
-      options: { hotspot: true },
-      description: "Your photo or an atmospheric image. Leave blank for a soft placeholder.",
-    }),
-    defineField({
-      name: "heroImageAlt",
-      title: "Hero photo description",
-      type: "string",
-      group: "hero",
+      description:
+        "Main portrait beside your name. Click → Edit or drop a new file to replace. Leave blank for a soft color placeholder.",
     }),
     defineField({
       name: "heroCaptionName",
@@ -99,6 +94,14 @@ export const homePage = defineType({
       rows: 6,
       group: "who",
     }),
+    ...photoFields({
+      name: "whoImage",
+      title: "Photo in “Who I work with”",
+      altName: "whoImageAlt",
+      group: "who",
+      description:
+        "Large photo beside this section. Replace the stock session photo by uploading here.",
+    }),
 
     defineField({
       name: "servicesHeading",
@@ -139,6 +142,14 @@ export const homePage = defineType({
       of: [{ type: "string" }],
       description: "Add one approach per line (EMDR, ERP, etc.).",
     }),
+    ...photoFields({
+      name: "approachImage",
+      title: "Photo in “How I help”",
+      altName: "approachImageAlt",
+      group: "approach",
+      description:
+        "Wide photo beside this section. Upload to replace the stock image.",
+    }),
 
     defineField({
       name: "ctaHeading",
@@ -154,20 +165,13 @@ export const homePage = defineType({
       rows: 4,
       group: "cta",
     }),
-    defineField({
+    ...photoFields({
       name: "consultImage",
       title: "Photo beside the consultation form",
-      type: "image",
+      altName: "consultImageAlt",
       group: "cta",
-      options: { hotspot: true },
       description:
-        "Optional. If empty, the site reuses your hero photo here.",
-    }),
-    defineField({
-      name: "consultImageAlt",
-      title: "Consultation photo description",
-      type: "string",
-      group: "cta",
+        "Upload to set this photo. If empty, the site reuses your hero photo (or a stock photo).",
     }),
   ],
   preview: {

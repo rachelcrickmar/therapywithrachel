@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { ContactForm } from "@/components/ContactForm";
 import { FadeIn } from "@/components/FadeIn";
-import { hasSanityImage, SanityImage } from "@/components/SanityImage";
+import { PageImage } from "@/components/PageImage";
 import { getContactPage } from "@/lib/get-content";
 import { siteConfig } from "@/lib/site";
 
@@ -13,7 +12,6 @@ export const metadata: Metadata = {
 
 export default async function ContactPage() {
   const page = await getContactPage();
-  const showPhoto = hasSanityImage(page.sidePhoto as never);
 
   return (
     <section className="atmosphere relative overflow-hidden">
@@ -39,23 +37,14 @@ export default async function ContactPage() {
               </dl>
             </div>
             <div className="relative aspect-[4/5] max-w-sm overflow-hidden rounded-2xl">
-              {showPhoto ? (
-                <SanityImage
-                  value={page.sidePhoto as never}
-                  alt={page.sidePhotoAlt || siteConfig.therapistName}
-                  className="object-cover object-[center_20%]"
-                  fill
-                  sizes="(min-width: 768px) 28vw, 90vw"
-                />
-              ) : (
-                <Image
-                  src="/images/session-conversation.jpg"
-                  alt="A calm therapy conversation in progress"
-                  fill
-                  className="object-cover object-center"
-                  sizes="(min-width: 768px) 28vw, 90vw"
-                />
-              )}
+              <PageImage
+                value={page.sidePhoto}
+                alt={page.sidePhotoAlt || siteConfig.therapistName}
+                fallbackSrc="/images/session-conversation.jpg"
+                fallbackAlt="A calm therapy conversation in progress"
+                className="object-cover object-[center_20%]"
+                sizes="(min-width: 768px) 28vw, 90vw"
+              />
             </div>
           </div>
         </FadeIn>

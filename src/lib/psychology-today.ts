@@ -34,15 +34,37 @@ export function isPsychologyTodayPlacement(
 }
 
 /** Pull profile id / badge style / verification code from a Psychology Today embed snippet. */
+export function sanitizePsychologyTodayEmbed(html: string) {
+  return html
+    // Editors / OS autocorrect often turn HTML comment endings into arrows or dashes.
+    .replace(/→/g, "-->")
+    .replace(/←/g, "<!--")
+    .replace(/<!—/g, "<!--")
+    .replace(/<!–/g, "<!--")
+    .replace(/—>/g, "-->")
+    .replace(/–>/g, "-->")
+    .replace(/[“”]/g, '"')
+    .replace(/[‘’]/g, "'");
+}
+
 export function parsePsychologyTodayEmbed(html: string | null | undefined) {
   if (!html?.trim()) return null;
+  const cleaned = sanitizePsychologyTodayEmbed(html);
 
   const profileId =
-    html.match(/data-id\s*=\s*["'](\d+)["']/i)?.[1] ||
-    html.match(/psychologytoday\.com\/(?:us\/)?profile\/(\d+)/i)?.[1] ||
+    cleaned.match(/data-id\s*=\s*["'](\d+)["']/i)?.[1] ||
+    cleaned.match(/data-id\s*=\s*(\d+)/i)?.[1] ||
+    cleaned.match(/psychologytoday\.com\/(?:us\/)?profile\/(\d+)/i)?.[1] ||
     null;
-  const badge = html.match(/data-badge\s*=\s*["'](\d+)["']/i)?.[1] || null;
-  const code = html.match(/data-code\s*=\s*["']([^"']+)["']/i)?.[1] || null;
+  const badge =
+    cleaned.match(/data-badge\s*=\s*["'](\d+)["']/i)?.[1] ||
+    cleaned.match(/data-badge\s*=\s*(\d+)/i)?.[1] ||
+    null;
+  // Codes are base64; allow mangled quotes and whitespace wrapping.
+  const code =
+    cleaned.match(/data-code\s*=\s*["']([A-Za-z0-9+/=]+)["']/i)?.[1] ||
+    cleaned.match(/data-code\s*=\s*([A-Za-z0-9+/=]{20,})/i)?.[1] ||
+    null;
 
   if (!profileId || !code) return null;
   return {
@@ -61,6 +83,7 @@ export function normalizePsychologyTodayBadge(input: {
   code?: string | null;
 } | null | undefined): PsychologyTodayBadgeConfig {
   const placements = (input?.placements || [])
+    .map((value) => (typeof value === "string" ? value.trim() : value))
     .filter(isPsychologyTodayPlacement)
     .filter((value, index, all) => all.indexOf(value) === index);
 
@@ -76,8 +99,16 @@ export function normalizePsychologyTodayBadge(input: {
   const code =
     input?.code?.trim() || fromEmbed?.code || PSYCHOLOGY_TODAY_DEFAULTS.code;
 
+  // Treat a pasted embed (or explicit on) as enabled. Only stay off when
+  // the toggle is explicitly false and there is no usable embed/code.
+  const hasEmbed = Boolean(fromEmbed || input?.code?.trim() || input?.embed?.trim());
+  const enabled =
+    input?.enabled === false && !hasEmbed
+      ? false
+      : input?.enabled !== false;
+
   return {
-    enabled: Boolean(input?.enabled),
+    enabled,
     placements: placements.length ? placements : ["footer"],
     profileId,
     badge,

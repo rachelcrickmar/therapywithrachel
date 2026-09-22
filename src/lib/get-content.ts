@@ -170,6 +170,10 @@ export async function getHomePage() {
       `Free ${siteConfig.consultLength} consultation`,
     whoHeading: (page?.whoHeading as string) || homeContent.whoHeading,
     whoBody: (page?.whoBody as string) || homeContent.whoBody,
+    whoImage: page?.whoImage,
+    whoImageAlt:
+      (page?.whoImageAlt as string) ||
+      "Two women talking together in a calm therapy session",
     servicesHeading:
       (page?.servicesHeading as string) || "How we can work together",
     servicesIntro:
@@ -178,6 +182,10 @@ export async function getHomePage() {
     approachHeading:
       (page?.approachHeading as string) || homeContent.approachHeading,
     approachBody: (page?.approachBody as string) || homeContent.approachBody,
+    approachImage: page?.approachImage,
+    approachImageAlt:
+      (page?.approachImageAlt as string) ||
+      "Therapist and client talking during a counseling session",
     modalities:
       (page?.modalities as string[])?.length
         ? (page?.modalities as string[])
@@ -227,6 +235,13 @@ export async function getAboutPage() {
     availability: (page?.availability as string) || aboutContent.availability,
     sidebarButtonLabel:
       (page?.sidebarButtonLabel as string) || "Request a consult",
+    storyImage: page?.storyImage,
+    storyImageAlt:
+      (page?.storyImageAlt as string) ||
+      "Therapist and client in conversation on a couch",
+    storyQuote:
+      (page?.storyQuote as string) ||
+      "A steady, collaborative space for women and teens navigating trauma, OCD, ADHD, and the weight of everyday life.",
     servicesHeading: (page?.servicesHeading as string) || "Services",
     servicesIntro:
       (page?.servicesIntro as string) ||
@@ -283,6 +298,10 @@ export async function getRatesPage() {
     thrizerNote: (page?.thrizerNote as string) || ratesContent.thrizerNote,
     thrizerDisclaimer:
       (page?.thrizerDisclaimer as string) || ratesContent.thrizerDisclaimer,
+    thrizerImage: page?.thrizerImage,
+    thrizerImageAlt:
+      (page?.thrizerImageAlt as string) ||
+      "Hands and conversation during a counseling moment",
     thrizerWidgetUrl:
       (page?.thrizerWidgetUrl as string) ||
       settings.thrizerWidgetUrl ||

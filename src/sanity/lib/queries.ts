@@ -67,10 +67,14 @@ export const homePageQuery = groq`
     consultNote,
     whoHeading,
     whoBody,
+    whoImage { ${imageFields} },
+    whoImageAlt,
     servicesHeading,
     servicesIntro,
     approachHeading,
     approachBody,
+    approachImage { ${imageFields} },
+    approachImageAlt,
     modalities,
     ctaHeading,
     ctaBody,
@@ -92,6 +96,9 @@ export const aboutPageQuery = groq`
     approaches,
     availability,
     sidebarButtonLabel,
+    storyImage { ${imageFields} },
+    storyImageAlt,
+    storyQuote,
     servicesHeading,
     servicesIntro,
     endorsementsHeading,
@@ -132,6 +139,8 @@ export const ratesPageQuery = groq`
     thrizerHeading,
     thrizerNote,
     thrizerDisclaimer,
+    thrizerImage { ${imageFields} },
+    thrizerImageAlt,
     thrizerWidgetUrl
   }
 `;

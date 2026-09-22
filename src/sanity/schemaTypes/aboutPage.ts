@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { photoFields } from "./objects/photoFields";
 
 export const aboutPage = defineType({
   name: "aboutPage",
@@ -8,8 +9,9 @@ export const aboutPage = defineType({
     { name: "intro", title: "1. Page intro", default: true },
     { name: "story", title: "2. Your story" },
     { name: "sidebar", title: "3. Sidebar (credentials)" },
-    { name: "services", title: "4. Services section" },
-    { name: "endorsements", title: "5. Endorsements" },
+    { name: "mid", title: "4. Mid-page photo & quote" },
+    { name: "services", title: "5. Services section" },
+    { name: "endorsements", title: "6. Endorsements" },
   ],
   fields: [
     defineField({
@@ -26,18 +28,13 @@ export const aboutPage = defineType({
       rows: 4,
       group: "intro",
     }),
-    defineField({
+    ...photoFields({
       name: "portrait",
-      title: "Portrait photo (optional)",
-      type: "image",
+      title: "Portrait photo (top of About)",
+      altName: "portraitAlt",
       group: "intro",
-      options: { hotspot: true },
-    }),
-    defineField({
-      name: "portraitAlt",
-      title: "Portrait description",
-      type: "string",
-      group: "intro",
+      description:
+        "Your photo at the top of About. Upload to replace. If empty, the site may reuse your Home hero photo.",
     }),
 
     defineField({
@@ -90,6 +87,24 @@ export const aboutPage = defineType({
       type: "string",
       group: "sidebar",
       initialValue: "Request a consult",
+    }),
+
+    ...photoFields({
+      name: "storyImage",
+      title: "Mid-page photo (beside quote)",
+      altName: "storyImageAlt",
+      group: "mid",
+      description:
+        "Wide photo in the middle of About. Upload to replace the stock couch/session photo.",
+    }),
+    defineField({
+      name: "storyQuote",
+      title: "Quote beside the mid-page photo",
+      type: "text",
+      rows: 4,
+      group: "mid",
+      initialValue:
+        "A steady, collaborative space for women and teens navigating trauma, OCD, ADHD, and the weight of everyday life.",
     }),
 
     defineField({

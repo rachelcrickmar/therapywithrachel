@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { ButtonLink } from "@/components/ButtonLink";
 import { FadeIn } from "@/components/FadeIn";
+import { PageImage } from "@/components/PageImage";
+import { PsychologyTodayBadge } from "@/components/PsychologyTodayBadge";
 import { hasSanityImage, SanityImage } from "@/components/SanityImage";
 import { ServicesBlock } from "@/components/ServicesBlock";
 import { getAboutPage, getServices, getSiteSettings } from "@/lib/get-content";
-import { PsychologyTodayBadge } from "@/components/PsychologyTodayBadge";
 import { showPsychologyTodayBadge } from "@/lib/psychology-today";
 import { siteConfig } from "@/lib/site";
 
@@ -115,10 +115,10 @@ export default async function AboutPage() {
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 md:grid-cols-2 md:px-8 md:py-20">
           <FadeIn>
             <div className="relative aspect-[16/11] overflow-hidden rounded-2xl">
-              <Image
-                src="/images/session-couch.jpg"
-                alt="Therapist and client in conversation on a couch"
-                fill
+              <PageImage
+                value={page.storyImage}
+                alt={page.storyImageAlt}
+                fallbackSrc="/images/session-couch.jpg"
                 className="object-cover"
                 sizes="(min-width: 768px) 45vw, 100vw"
               />
@@ -126,8 +126,7 @@ export default async function AboutPage() {
           </FadeIn>
           <FadeIn delayMs={80}>
             <p className="font-serif text-2xl leading-relaxed text-ink md:text-3xl">
-              A steady, collaborative space for women and teens navigating
-              trauma, OCD, ADHD, and the weight of everyday life.
+              {page.storyQuote}
             </p>
           </FadeIn>
         </div>
@@ -146,20 +145,18 @@ export default async function AboutPage() {
               {page.endorsementsHeading}
             </h2>
           </FadeIn>
-          <div className="mt-12 grid gap-10 md:grid-cols-2">
-            {page.endorsements.map((item, index) => (
-              <FadeIn key={item.name} delayMs={index * 60}>
-                <blockquote className="border-t border-line pt-6">
-                  <p className="font-serif text-xl leading-relaxed text-ink">
+          <div className="mt-10 grid gap-8 md:grid-cols-2">
+            {page.endorsements.map((item) => (
+              <FadeIn key={`${item.name}-${item.quote.slice(0, 24)}`}>
+                <blockquote className="border-l-2 border-sage pl-5">
+                  <p className="text-base leading-relaxed text-ink-muted md:text-lg">
                     “{item.quote}”
                   </p>
                   <footer className="mt-4 text-sm text-ink-muted">
                     <cite className="not-italic font-medium text-ink">
                       {item.name}
                     </cite>
-                    {item.credentials ? (
-                      <span className="block">{item.credentials}</span>
-                    ) : null}
+                    {item.credentials ? ` · ${item.credentials}` : null}
                   </footer>
                 </blockquote>
               </FadeIn>
