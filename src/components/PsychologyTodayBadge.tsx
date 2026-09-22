@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useState } from "react";
 
 export type PsychologyTodayBadgeProps = {
   profileId: string;
@@ -10,8 +10,8 @@ export type PsychologyTodayBadgeProps = {
 };
 
 type SealPayload = {
-  badgeId?: number | string;
   name?: string;
+  badgeId?: number | string;
   image?: {
     content?: string;
     dimensions?: { width?: number; height?: number };
@@ -21,9 +21,9 @@ type SealPayload = {
 /**
  * Psychology Today verified seal.
  *
- * Their official loader only runs on DOMContentLoaded, so injecting
- * verified-seal.js from React never paints the badge. We call their
- * JSONP seal API directly (same endpoint the embed uses) instead.
+ * Their official loader + JSONP fail in modern apps: the seal API returns
+ * Content-Type application/json, so browsers won't execute it as a script.
+ * We fetch via our own API proxy and render a real <img>.
  */
 export function PsychologyTodayBadge({
   profileId,
@@ -31,78 +31,78 @@ export function PsychologyTodayBadge({
   code,
   className = "",
 }: PsychologyTodayBadgeProps) {
-  const anchorRef = useRef<HTMLAnchorElement>(null);
-  const reactId = useId().replace(/:/g, "");
-  const callbackName = `sxPtBadge_${reactId}`;
+  const [seal, setSeal] = useState<SealPayload | null>(null);
 
   useEffect(() => {
-    if (!profileId || !code || !anchorRef.current) return;
+    if (!profileId || !code) return;
 
-    let apiUrl = "";
-    try {
-      apiUrl = atob(code.trim().replace(/[“”‘’]/g, "").replace(/\s+/g, ""))
-        .replace("[BADGE]", badge)
-        .replace("[PROFILE_ID]", String(parseInt(profileId, 10)));
-    } catch {
-      return;
-    }
+    const params = new URLSearchParams({
+      profileId,
+      badge: badge || "13",
+      code,
+    });
+    const controller = new AbortController();
 
-    if (!apiUrl.startsWith("https://")) return;
+    void fetch(`/api/psychology-today-badge?${params.toString()}`, {
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("seal fetch failed");
+        return (await response.json()) as SealPayload;
+      })
+      .then((payload) => {
+        if (payload?.image?.content) setSeal(payload);
+      })
+      .catch((error: unknown) => {
+        if (
+          error &&
+          typeof error === "object" &&
+          "name" in error &&
+          error.name === "AbortError"
+        ) {
+          return;
+        }
+        console.warn("Psychology Today badge failed to load.", error);
+      });
 
-    const applySeal = (payload: SealPayload) => {
-      const anchor = anchorRef.current;
-      if (!anchor || !payload?.image?.content) return;
-      const width = payload.image.dimensions?.width || 120;
-      const height = payload.image.dimensions?.height || 120;
-      anchor.style.display = "inline-block";
-      anchor.style.backgroundRepeat = "no-repeat";
-      anchor.style.backgroundSize = "contain";
-      anchor.style.backgroundImage = `url("data:image/svg+xml;base64,${payload.image.content}")`;
-      anchor.style.width = `${width}px`;
-      anchor.style.height = `${height}px`;
-      if (payload.name) anchor.title = payload.name;
-    };
-
-    const url = new URL(apiUrl);
-    url.searchParams.set("callback", callbackName);
-
-    const previous = (window as unknown as Record<string, unknown>)[callbackName];
-    (window as unknown as Record<string, unknown>)[callbackName] = (
-      payload: SealPayload,
-    ) => {
-      applySeal(payload);
-    };
-
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = url.toString();
-    script.onerror = () => {
-      console.warn("Psychology Today badge failed to load.");
-    };
-    document.body.appendChild(script);
-
-    return () => {
-      script.remove();
-      if (previous) {
-        (window as unknown as Record<string, unknown>)[callbackName] = previous;
-      } else {
-        delete (window as unknown as Record<string, unknown>)[callbackName];
-      }
-    };
-  }, [profileId, badge, code, callbackName]);
+    return () => controller.abort();
+  }, [profileId, badge, code]);
 
   if (!profileId || !code) return null;
+
+  const width = seal?.image?.dimensions?.width || 146;
+  const height = seal?.image?.dimensions?.height || 46;
+  const label = seal?.name
+    ? `Verified by Psychology Today — ${seal.name}`
+    : "Verified by Psychology Today";
 
   return (
     <div className={`psychology-today-badge ${className}`.trim()}>
       <a
-        ref={anchorRef}
         href={`https://www.psychologytoday.com/profile/${profileId}`}
         className="sx-verified-seal"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Verified by Psychology Today"
-      />
+        aria-label={label}
+        title={seal?.name || "Psychology Today"}
+      >
+        {seal?.image?.content ? (
+          // eslint-disable-next-line @next/next/no-img-element -- data URI from PT API
+          <img
+            src={`data:image/svg+xml;base64,${seal.image.content}`}
+            alt={label}
+            width={width}
+            height={height}
+            decoding="async"
+          />
+        ) : (
+          <span
+            className="psychology-today-badge__slot"
+            style={{ width, height }}
+            aria-hidden
+          />
+        )}
+      </a>
     </div>
   );
 }

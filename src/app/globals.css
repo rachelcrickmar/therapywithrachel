@@ -232,9 +232,21 @@ body {
 
 .psychology-today-badge .sx-verified-seal {
   display: inline-block;
-  min-width: 5rem;
-  min-height: 5rem;
+  line-height: 0;
   vertical-align: middle;
+}
+
+.psychology-today-badge .sx-verified-seal img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+}
+
+.psychology-today-badge__slot {
+  display: block;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--mist-deep) 70%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
