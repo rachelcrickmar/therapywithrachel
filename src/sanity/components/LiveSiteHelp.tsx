@@ -40,7 +40,7 @@ export function LiveSiteHelp() {
         </li>
         <li style={{ marginBottom: "0.5rem" }}>
           <strong>Edit website pages</strong> — Home, About, Rates, Contact,
-          Privacy (each section is clearly labeled)
+          FAQ, Blog page text, Privacy
         </li>
         <li style={{ marginBottom: "0.5rem" }}>
           <strong>Services</strong> — therapy areas listed on Home &amp; About
@@ -50,9 +50,9 @@ export function LiveSiteHelp() {
           contact” button block with the + menu
         </li>
         <li>
-          <strong>Site settings</strong> — navbar, footer, Psychology Today
-          badge (Badges tab — paste the &lt;script&gt; line; arrows in comments
-          are OK), Thrizer link, practice name
+          <strong>Site settings</strong> — navbar, footer, directory badges
+          (Psychology Today plus any others — footer, home, or About), Thrizer
+          link, practice name
         </li>
         <li style={{ marginTop: "0.5rem" }}>
           <strong>Photos</strong> — every page photo has an upload field in that

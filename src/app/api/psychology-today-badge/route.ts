@@ -20,10 +20,25 @@ function decodeCode(code: string) {
   }
 }
 
+function allowedSealUrl(value: string) {
+  if (!value.startsWith("https://")) return null;
+  try {
+    const host = new URL(value).hostname;
+    const allowed =
+      host === "psychologytoday.com" ||
+      host.endsWith(".psychologytoday.com") ||
+      host === "healthprofs.com" ||
+      host.endsWith(".healthprofs.com");
+    return allowed ? value : null;
+  } catch {
+    return null;
+  }
+}
+
 /**
- * Proxy Psychology Today's verified-seal JSON.
+ * Proxy Psychology Today / HealthProfs verified-seal JSON.
  * Their JSONP endpoint returns Content-Type: application/json, which browsers
- * refuse to execute as a <script>, so the official embed never paints in SPA/React.
+ * refuse to execute as a <script>, so the official embed never paints in React.
  */
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
@@ -37,11 +52,14 @@ export async function GET(request: NextRequest) {
 
   let apiUrl = "";
   if (code) {
-    apiUrl = decodeCode(code)
-      .replace("[BADGE]", badge)
-      .replace("[PROFILE_ID]", String(parseInt(profileId, 10)));
+    apiUrl =
+      allowedSealUrl(
+        decodeCode(code)
+          .replace("[BADGE]", badge)
+          .replace("[PROFILE_ID]", String(parseInt(profileId, 10))),
+      ) || "";
   }
-  if (!apiUrl.startsWith("https://www.psychologytoday.com/")) {
+  if (!apiUrl) {
     apiUrl = `https://www.psychologytoday.com/api/verified-seal/seals/${encodeURIComponent(badge)}/profile/${encodeURIComponent(profileId)}`;
   }
 
@@ -55,10 +73,7 @@ export async function GET(request: NextRequest) {
     });
 
     if (!upstream.ok) {
-      return Response.json(
-        { error: "Seal upstream failed." },
-        { status: 502 },
-      );
+      return Response.json({ error: "Seal upstream failed." }, { status: 502 });
     }
 
     const text = await upstream.text();

@@ -18,6 +18,7 @@ const SINGLETONS = [
   "contactPage",
   "privacyPage",
   "faqPage",
+  "blogPage",
   "inquiry",
 ];
 

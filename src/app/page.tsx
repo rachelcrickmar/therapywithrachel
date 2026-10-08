@@ -11,7 +11,7 @@ import {
   VolunteerIcon,
 } from "@/components/MaterialIcons";
 import { PageImage } from "@/components/PageImage";
-import { PsychologyTodayBadge } from "@/components/PsychologyTodayBadge";
+import { DirectoryBadges } from "@/components/DirectoryBadges";
 import { hasSanityImage, SanityImage } from "@/components/SanityImage";
 import { ServicesBlock } from "@/components/ServicesBlock";
 import {
@@ -20,7 +20,6 @@ import {
   getServices,
   getSiteSettings,
 } from "@/lib/get-content";
-import { showPsychologyTodayBadge } from "@/lib/psychology-today";
 
 export const revalidate = 30;
 
@@ -55,10 +54,6 @@ export default async function HomePage() {
     ? page.consultImage
     : page.heroImage;
   const homeFaqs = faq.homeFaqs;
-  const showPtBadge = showPsychologyTodayBadge(
-    settings.psychologyToday,
-    "homeHero",
-  );
 
   return (
     <>
@@ -83,14 +78,11 @@ export default async function HomePage() {
                 {page.secondaryButtonLabel}
               </ButtonLink>
             </div>
-            {showPtBadge ? (
-              <PsychologyTodayBadge
-                profileId={settings.psychologyToday.profileId}
-                badge={settings.psychologyToday.badge}
-                code={settings.psychologyToday.code}
-                className="mt-6"
-              />
-            ) : null}
+            <DirectoryBadges
+              badges={settings.badges}
+              placement="homeHero"
+              className="mt-6"
+            />
             {page.consultNote ? (
               <p className="mt-6 text-sm text-ink-muted">{page.consultNote}</p>
             ) : null}

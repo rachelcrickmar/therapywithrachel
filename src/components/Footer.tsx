@@ -3,10 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BrandMark } from "@/components/BrandMark";
-import { PsychologyTodayBadge } from "@/components/PsychologyTodayBadge";
+import { DirectoryBadges } from "@/components/DirectoryBadges";
 import { trackContactClick } from "@/lib/analytics/client";
-import type { PsychologyTodayBadgeConfig } from "@/lib/psychology-today";
-import { showPsychologyTodayBadge } from "@/lib/psychology-today";
+import type { SiteBadge } from "@/lib/badges";
 import type { SiteLink } from "@/lib/site";
 
 type FooterProps = {
@@ -16,7 +15,7 @@ type FooterProps = {
   footerTagline: string;
   footerLinks: SiteLink[];
   crisisNote: string;
-  psychologyToday?: PsychologyTodayBadgeConfig;
+  badges?: SiteBadge[];
 };
 
 function formatCrisisNote(note: string) {
@@ -39,15 +38,12 @@ export function Footer({
   footerTagline,
   footerLinks,
   crisisNote,
-  psychologyToday,
+  badges = [],
 }: FooterProps) {
   const pathname = usePathname();
   if (pathname?.startsWith("/admin") || pathname?.startsWith("/studio")) {
     return null;
   }
-
-  const showBadge =
-    psychologyToday && showPsychologyTodayBadge(psychologyToday, "footer");
 
   return (
     <footer className="mt-auto border-t border-line bg-stone-warm/50">
@@ -60,14 +56,7 @@ export function Footer({
           <p className="max-w-md whitespace-pre-line text-sm leading-relaxed text-ink-muted">
             {footerTagline}
           </p>
-          {showBadge && psychologyToday ? (
-            <PsychologyTodayBadge
-              profileId={psychologyToday.profileId}
-              badge={psychologyToday.badge}
-              code={psychologyToday.code}
-              className="pt-1"
-            />
-          ) : null}
+          <DirectoryBadges badges={badges} placement="footer" className="pt-1" />
         </div>
 
         <div className="space-y-4 text-sm text-ink-muted">

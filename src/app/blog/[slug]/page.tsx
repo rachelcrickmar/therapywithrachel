@@ -5,6 +5,7 @@ import { FadeIn } from "@/components/FadeIn";
 import { PortableBody } from "@/components/PortableBody";
 import { SanityImage } from "@/components/SanityImage";
 import { samplePosts } from "@/lib/content";
+import { getBlogPage } from "@/lib/get-content";
 import { sanityFetch } from "@/sanity/lib/client";
 import { postBySlugQuery, postSlugsQuery } from "@/sanity/lib/queries";
 
@@ -73,7 +74,7 @@ async function getPost(slug: string): Promise<Post | null> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const [post, blog] = await Promise.all([getPost(slug), getBlogPage()]);
   if (!post) notFound();
 
   return (
@@ -85,7 +86,7 @@ export default async function BlogPostPage({ params }: Props) {
             href="/blog"
             className="text-sm text-sage-deep transition hover:underline"
           >
-            ← All posts
+            {blog.backLinkLabel}
           </Link>
           <h1 className="mt-6 font-serif text-4xl text-ink md:text-5xl">
             {post.title}

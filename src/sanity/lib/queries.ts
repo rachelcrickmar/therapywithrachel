@@ -170,6 +170,15 @@ export const privacyPageQuery = groq`
   }
 `;
 
+export const blogPageQuery = groq`
+  *[_id == "blogPage"][0] {
+    eyebrow,
+    title,
+    intro,
+    backLinkLabel
+  }
+`;
+
 export const siteSettingsQuery = groq`
   *[_id == "siteSettings"][0] {
     practiceName,
@@ -191,6 +200,16 @@ export const siteSettingsQuery = groq`
     psychologyTodayProfileId,
     psychologyTodayBadge,
     psychologyTodayCode,
+    directoryBadges[] {
+      _key,
+      name,
+      placements,
+      embed,
+      link,
+      alt,
+      imageUrl,
+      image { ${imageFields} }
+    },
     thrizerWidgetUrl,
     seoTitle,
     seoDescription

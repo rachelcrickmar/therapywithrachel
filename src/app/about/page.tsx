@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { ButtonLink } from "@/components/ButtonLink";
+import { DirectoryBadges } from "@/components/DirectoryBadges";
 import { FadeIn } from "@/components/FadeIn";
 import { PageImage } from "@/components/PageImage";
-import { PsychologyTodayBadge } from "@/components/PsychologyTodayBadge";
 import { hasSanityImage, SanityImage } from "@/components/SanityImage";
 import { ServicesBlock } from "@/components/ServicesBlock";
 import { getAboutPage, getServices, getSiteSettings } from "@/lib/get-content";
-import { showPsychologyTodayBadge } from "@/lib/psychology-today";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -21,10 +20,6 @@ export default async function AboutPage() {
     getSiteSettings(),
   ]);
   const showPortrait = hasSanityImage(page.portrait as never);
-  const showPtBadge = showPsychologyTodayBadge(
-    settings.psychologyToday,
-    "about",
-  );
 
   return (
     <>
@@ -99,14 +94,11 @@ export default async function AboutPage() {
             <ButtonLink href="/contact" trackLocation="about_sidebar">
               {page.sidebarButtonLabel}
             </ButtonLink>
-            {showPtBadge ? (
-              <PsychologyTodayBadge
-                profileId={settings.psychologyToday.profileId}
-                badge={settings.psychologyToday.badge}
-                code={settings.psychologyToday.code}
-                className="pt-2"
-              />
-            ) : null}
+            <DirectoryBadges
+              badges={settings.badges}
+              placement="about"
+              className="pt-2"
+            />
           </aside>
         </FadeIn>
       </section>

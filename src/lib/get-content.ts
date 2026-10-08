@@ -13,13 +13,11 @@ import {
   type Service,
 } from "@/lib/content";
 import { siteConfig, type SiteLink } from "@/lib/site";
-import {
-  normalizePsychologyTodayBadge,
-  type PsychologyTodayBadgeConfig,
-} from "@/lib/psychology-today";
+import { normalizeSiteBadges, type SiteBadge } from "@/lib/badges";
 import { sanityFetch } from "@/sanity/lib/client";
 import {
   aboutPageQuery,
+  blogPageQuery,
   contactPageQuery,
   faqPageQuery,
   homePageQuery,
@@ -53,7 +51,7 @@ export type SiteChrome = {
   footerTagline: string;
   footerLinks: SiteLink[];
   crisisNote: string;
-  psychologyToday: PsychologyTodayBadgeConfig;
+  badges: SiteBadge[];
   thrizerWidgetUrl?: string;
   seoTitle?: string;
   seoDescription?: string;
@@ -110,6 +108,16 @@ export async function getSiteSettings(): Promise<SiteChrome> {
       psychologyTodayProfileId?: string;
       psychologyTodayBadge?: string;
       psychologyTodayCode?: string;
+      directoryBadges?: {
+        _key?: string;
+        name?: string;
+        placements?: string[];
+        embed?: string;
+        link?: string;
+        alt?: string;
+        imageUrl?: string;
+        image?: unknown;
+      }[];
       thrizerWidgetUrl?: string;
       seoTitle?: string;
       seoDescription?: string;
@@ -132,17 +140,41 @@ export async function getSiteSettings(): Promise<SiteChrome> {
     crisisNote:
       page.crisisNote ||
       "This website is not for emergencies. If you are in crisis, call or text 988 (Suicide & Crisis Lifeline), or call 911.",
-    psychologyToday: normalizePsychologyTodayBadge({
-      enabled: page.psychologyTodayBadgeEnabled ?? true,
-      placements: page.psychologyTodayPlacements,
-      embed: page.psychologyTodayEmbed,
-      profileId: page.psychologyTodayProfileId,
-      badge: page.psychologyTodayBadge,
-      code: page.psychologyTodayCode,
+    badges: normalizeSiteBadges({
+      psychologyToday: {
+        enabled: page.psychologyTodayBadgeEnabled ?? true,
+        placements: page.psychologyTodayPlacements,
+        embed: page.psychologyTodayEmbed,
+        profileId: page.psychologyTodayProfileId,
+        badge: page.psychologyTodayBadge,
+        code: page.psychologyTodayCode,
+      },
+      directoryBadges: page.directoryBadges,
     }),
     thrizerWidgetUrl: page.thrizerWidgetUrl,
     seoTitle: page.seoTitle,
     seoDescription: page.seoDescription,
+  };
+}
+
+export async function getBlogPage() {
+  const page = await sanityFetch<{
+    eyebrow?: string;
+    title?: string;
+    intro?: string;
+    backLinkLabel?: string;
+  }>({
+    query: blogPageQuery,
+    tags: ["blogPage"],
+  });
+
+  return {
+    eyebrow: page?.eyebrow?.trim() || "Blog",
+    title: page?.title?.trim() || "Writing",
+    intro:
+      page?.intro?.trim() ||
+      "Short pieces for prospective and current clients — notes on therapy, getting started, and finding steadier ground.",
+    backLinkLabel: page?.backLinkLabel?.trim() || "← All posts",
   };
 }
 

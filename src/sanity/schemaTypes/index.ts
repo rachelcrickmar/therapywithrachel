@@ -1,4 +1,5 @@
 import { aboutPage } from "./aboutPage";
+import { blogPage } from "./blogPage";
 import { contactPage } from "./contactPage";
 import { ctaBlock } from "./objects/ctaBlock";
 import { endorsement } from "./objects/endorsement";
@@ -18,6 +19,7 @@ export const schemaTypes = [
   aboutPage,
   ratesPage,
   contactPage,
+  blogPage,
   privacyPage,
   faqPage,
   service,

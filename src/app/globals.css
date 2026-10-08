@@ -249,6 +249,14 @@ body {
   background: color-mix(in oklab, var(--mist-deep) 70%, transparent);
 }
 
+.directory-badges .directory-badge img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-height: 3.25rem;
+  max-width: 11rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

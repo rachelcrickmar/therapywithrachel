@@ -1,5 +1,11 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+const badgePlacements = [
+  { title: "Footer (all pages)", value: "footer" },
+  { title: "Home — under the Get in touch buttons", value: "homeHero" },
+  { title: "About — sidebar", value: "about" },
+];
+
 const navLinkFields = [
   defineField({
     name: "label",
@@ -202,11 +208,7 @@ export const siteSettings = defineType({
       group: "badges",
       of: [{ type: "string" }],
       options: {
-        list: [
-          { title: "Footer (all pages)", value: "footer" },
-          { title: "Home — under the Get in touch buttons", value: "homeHero" },
-          { title: "About — sidebar", value: "about" },
-        ],
+        list: badgePlacements,
         layout: "grid",
       },
       initialValue: ["footer"],
@@ -301,6 +303,103 @@ export const siteSettings = defineType({
       description:
         "Optional override for data-code. Prefer pasting a new full embed above when Psychology Today sends an update.",
       hidden: ({ parent }) => !parent?.psychologyTodayBadgeEnabled,
+    }),
+    defineField({
+      name: "directoryBadges",
+      title: "More directory badges",
+      type: "array",
+      group: "badges",
+      description:
+        "Add badges from other directories (TherapyDen, GoodTherapy, HealthProfs, and so on). Each badge can show in the footer, the home hero, and/or the About sidebar — the same places as Psychology Today. Paste the embed they gave you, or upload the badge image and add its link. Drag to reorder.",
+      of: [
+        defineArrayMember({
+          type: "object",
+          name: "directoryBadge",
+          title: "Directory badge",
+          fields: [
+            defineField({
+              name: "name",
+              title: "Directory name",
+              type: "string",
+              description: "For your reference. Example: TherapyDen",
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: "placements",
+              title: "Where to show this badge",
+              type: "array",
+              of: [{ type: "string" }],
+              options: { list: badgePlacements, layout: "grid" },
+              initialValue: ["footer"],
+              validation: (rule) =>
+                rule.required().min(1).error("Pick at least one place."),
+            }),
+            defineField({
+              name: "embed",
+              title: "Embed code from the directory",
+              type: "text",
+              rows: 5,
+              description:
+                "Paste the HTML they gave you. A Psychology Today / HealthProfs <script> line works, and so does a link with an image: <a href=\"…\"><img src=\"…\"></a>.",
+            }),
+            defineField({
+              name: "image",
+              title: "Or upload the badge image",
+              type: "image",
+              options: { hotspot: true },
+              description:
+                "Use this when the directory gives you a picture file instead of embed code.",
+            }),
+            defineField({
+              name: "imageUrl",
+              title: "Or paste a direct image link",
+              type: "url",
+              description: "https:// link to the badge image, if you are not uploading a file.",
+            }),
+            defineField({
+              name: "link",
+              title: "Link when the badge is clicked",
+              type: "url",
+              description:
+                "Your profile page on that directory. Required when you upload an image. If you pasted an embed with a link, this can stay blank.",
+            }),
+            defineField({
+              name: "alt",
+              title: "Image description",
+              type: "string",
+              description: "Example: Verified on TherapyDen",
+            }),
+          ],
+          validation: (rule) =>
+            rule.custom((value) => {
+              const badge = value as
+                | {
+                    embed?: string;
+                    image?: { asset?: unknown };
+                    imageUrl?: string;
+                    link?: string;
+                  }
+                | undefined;
+              if (!badge) return true;
+              const hasEmbed = Boolean(badge.embed?.trim());
+              const hasImage = Boolean(badge.image?.asset || badge.imageUrl?.trim());
+              if (!hasEmbed && !hasImage) {
+                return "Paste an embed or add a badge image.";
+              }
+              if (hasImage && !badge.link?.trim() && !hasEmbed) {
+                return "Add the link this badge should open.";
+              }
+              return true;
+            }),
+          preview: {
+            select: { title: "name", media: "image" },
+            prepare: ({ title, media }) => ({
+              title: title || "Directory badge",
+              media,
+            }),
+          },
+        }),
+      ],
     }),
 
     defineField({

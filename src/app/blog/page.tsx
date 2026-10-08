@@ -3,14 +3,20 @@ import Link from "next/link";
 import { FadeIn } from "@/components/FadeIn";
 import { hasSanityImage, SanityImage } from "@/components/SanityImage";
 import { samplePosts } from "@/lib/content";
+import { getBlogPage } from "@/lib/get-content";
 import { siteConfig } from "@/lib/site";
 import { sanityFetch } from "@/sanity/lib/client";
 import { postsQuery } from "@/sanity/lib/queries";
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description: `Articles and notes from ${siteConfig.therapistName} at ${siteConfig.name}.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getBlogPage();
+  return {
+    title: page.title || "Blog",
+    description:
+      page.intro ||
+      `Articles and notes from ${siteConfig.therapistName} at ${siteConfig.name}.`,
+  };
+}
 
 type PostListItem = {
   _id: string;
@@ -23,10 +29,13 @@ type PostListItem = {
 };
 
 export default async function BlogPage() {
-  const fromCms = await sanityFetch<PostListItem[]>({
-    query: postsQuery,
-    tags: ["post"],
-  });
+  const [fromCms, page] = await Promise.all([
+    sanityFetch<PostListItem[]>({
+      query: postsQuery,
+      tags: ["post"],
+    }),
+    getBlogPage(),
+  ]);
 
   const posts: PostListItem[] =
     fromCms && fromCms.length > 0
@@ -45,14 +54,13 @@ export default async function BlogPage() {
       <div className="relative mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
         <FadeIn>
           <p className="text-sm font-medium tracking-[0.14em] text-sage uppercase">
-            Blog
+            {page.eyebrow}
           </p>
           <h1 className="mt-3 font-serif text-4xl text-ink md:text-5xl">
-            Writing
+            {page.title}
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted">
-            Short pieces for prospective and current clients — notes on
-            therapy, getting started, and finding steadier ground.
+            {page.intro}
           </p>
         </FadeIn>
 

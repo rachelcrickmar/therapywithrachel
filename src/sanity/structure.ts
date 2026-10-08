@@ -58,6 +58,7 @@ export const structure: StructureResolver = (S) =>
               singleton(S, "ratesPage", "Rates & insurance page", DocumentTextIcon),
               singleton(S, "contactPage", "Contact page", EnvelopeIcon),
               singleton(S, "faqPage", "FAQ page", HelpCircleIcon),
+              singleton(S, "blogPage", "Blog page", ComposeIcon),
               singleton(S, "privacyPage", "Privacy page", BookIcon),
             ]),
         ),
