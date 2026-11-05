@@ -189,6 +189,11 @@ export async function getHomePage() {
     brandName: (page?.brandName as string) || homeContent.brand,
     headline: (page?.headline as string) || homeContent.headline,
     subhead: (page?.subhead as string) || homeContent.subhead,
+    heroMedia: (page?.heroMedia as string) === "photo" ? "photo" : "video",
+    heroVideoUrl: (page?.heroVideoUrl as string) || "",
+    heroVideoMimeType: (page?.heroVideoMimeType as string) || "",
+    heroVideoUnmuteLabel:
+      (page?.heroVideoUnmuteLabel as string) || "Tap to unmute",
     heroImage: page?.heroImage,
     heroImageAlt: (page?.heroImageAlt as string) || "",
     heroCaptionName: (page?.heroCaptionName as string) || siteConfig.therapistName,

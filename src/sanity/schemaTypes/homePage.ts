@@ -35,13 +35,47 @@ export const homePage = defineType({
       rows: 3,
       group: "hero",
     }),
+    defineField({
+      name: "heroMedia",
+      title: "Show a video or a photo beside your name?",
+      type: "string",
+      group: "hero",
+      options: {
+        list: [
+          { title: "Video (plays silently, visitors tap to hear)", value: "video" },
+          { title: "Photo", value: "photo" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "video",
+      description: "Video is the default. Pick Photo to show the hero photo below instead.",
+    }),
+    defineField({
+      name: "heroVideo",
+      title: "Hero video (optional replacement)",
+      type: "file",
+      group: "hero",
+      options: { accept: "video/mp4,video/webm" },
+      hidden: ({ parent }) => parent?.heroMedia === "photo",
+      description:
+        "Leave empty to use your current intro video (already compressed for fast loading). To replace it, upload an MP4 — ideally under 10 MB and under 30 seconds, since large files make the home page slow on phones.",
+    }),
+    defineField({
+      name: "heroVideoUnmuteLabel",
+      title: "Unmute prompt text",
+      type: "string",
+      group: "hero",
+      hidden: ({ parent }) => parent?.heroMedia === "photo",
+      description: "Shown on the video while it plays silently.",
+      initialValue: "Tap to unmute",
+    }),
     ...photoFields({
       name: "heroImage",
       title: "Hero photo (top of home page)",
       altName: "heroImageAlt",
       group: "hero",
       description:
-        "Main portrait beside your name. Click → Edit or drop a new file to replace. Leave blank for a soft color placeholder.",
+        "Shown beside your name when “Photo” is selected above. Also used as the default photo on the Contact, Rates, and About pages. Click → Edit or drop a new file to replace.",
     }),
     defineField({
       name: "heroCaptionName",

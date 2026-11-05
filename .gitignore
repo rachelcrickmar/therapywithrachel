@@ -22,6 +22,9 @@
 
 # misc
 .DS_Store
+# uncompressed source footage; web-ready copies live in public/videos
+/*.mp4
+/*.mov
 *.pem
 
 # debug

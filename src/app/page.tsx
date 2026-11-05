@@ -4,6 +4,7 @@ import { ContactForm } from "@/components/ContactForm";
 import { FadeIn } from "@/components/FadeIn";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { HeroAtmosphere } from "@/components/HeroAtmosphere";
+import { HeroVideo } from "@/components/HeroVideo";
 import {
   EcoIcon,
   PsychologyIcon,
@@ -49,7 +50,15 @@ export default async function HomePage() {
     getFaqPage(),
     getSiteSettings(),
   ]);
-  const showHeroPhoto = hasSanityImage(page.heroImage as never);
+  const showHeroVideo = page.heroMedia === "video";
+  const showHeroPhoto =
+    !showHeroVideo && hasSanityImage(page.heroImage as never);
+  const heroVideoSources = page.heroVideoUrl
+    ? [{ src: page.heroVideoUrl, type: page.heroVideoMimeType || undefined }]
+    : [
+        { src: "/videos/rachel-intro.webm", type: 'video/webm; codecs="av01.0.08M.08, opus"' },
+        { src: "/videos/rachel-intro.mp4", type: "video/mp4" },
+      ];
   const consultPhoto = hasSanityImage(page.consultImage as never)
     ? page.consultImage
     : page.heroImage;
@@ -96,7 +105,17 @@ export default async function HomePage() {
             <div className="hero-portrait-card__sparkles" aria-hidden />
             <div className="hero-portrait-card__inner">
               <div className="relative aspect-[4/5] w-full overflow-hidden md:aspect-[5/6]">
-                {showHeroPhoto ? (
+                {showHeroVideo ? (
+                  <HeroVideo
+                    sources={heroVideoSources}
+                    poster={
+                      page.heroVideoUrl ? undefined : "/videos/rachel-intro-poster.jpg"
+                    }
+                    label={`Video introduction from ${page.heroCaptionName}`}
+                    unmuteLabel={page.heroVideoUnmuteLabel}
+                    className="object-cover object-[center_42%]"
+                  />
+                ) : showHeroPhoto ? (
                   <SanityImage
                     value={page.heroImage as never}
                     alt={page.heroImageAlt || page.heroCaptionName}
@@ -119,7 +138,7 @@ export default async function HomePage() {
                   <br />
                   In-person &amp; online
                 </p>
-                {!showHeroPhoto ? (
+                {!showHeroVideo && !showHeroPhoto ? (
                   <p className="mt-4 text-xs tracking-wide text-ink-muted uppercase">
                     Add a hero photo in Admin → Home page
                   </p>

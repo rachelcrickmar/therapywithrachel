@@ -230,6 +230,20 @@ body {
   animation: fade-up 0.8s ease-out both;
 }
 
+.hero-video-prompt {
+  animation: hero-video-prompt-pulse 2.6s ease-out 1.2s infinite;
+}
+
+@keyframes hero-video-prompt-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--paper) 55%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 14px color-mix(in oklab, var(--paper) 0%, transparent);
+  }
+}
+
 .psychology-today-badge .sx-verified-seal {
   display: inline-block;
   line-height: 0;
@@ -266,7 +280,8 @@ body {
   .btn-cta-attention,
   .btn-cta-attention::before,
   .hero-portrait-card__shimmer,
-  .hero-portrait-card__sparkles {
+  .hero-portrait-card__sparkles,
+  .hero-video-prompt {
     animation: none !important;
   }
 }
